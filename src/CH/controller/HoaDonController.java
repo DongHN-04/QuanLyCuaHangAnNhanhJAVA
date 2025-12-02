@@ -20,7 +20,7 @@ public class HoaDonController {
         this.view = view;
         this.dao = new HoaDonDAO();
         
-        // Tự động thêm dữ liệu mẫu nếu bảng trống (để test)
+        // Tự động thêm dữ liệu mẫu nếu bảng trống
         dao.addSampleDataIfEmpty(); 
 
         loadData();
@@ -31,7 +31,7 @@ public class HoaDonController {
         view.addXoaListener(new DeleteListener());
         view.addResetListener(e -> view.clearForm());
         
-        view.addXemChiTietListener(e -> showChiTiet());
+        view.addXemChiTietListener(e -> showHoaDonChiTiet());
         
         // Sự kiện click vào bảng để đổ dữ liệu lên Form
         view.getTable().getSelectionModel().addListSelectionListener(e -> {
@@ -152,7 +152,7 @@ public class HoaDonController {
     }
 
     // Hàm hiển thị popup chi tiết
-    private void showChiTiet() {
+    private void showHoaDonChiTiet() {
         int row = view.getSelectedRow();
         if (row < 0) {
             JOptionPane.showMessageDialog(view, "Vui lòng chọn hóa đơn để xem chi tiết!");
@@ -170,7 +170,7 @@ public class HoaDonController {
         List<ChiTietHoaDon> details = dao.getChiTiet(maHD);
         JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(view);
         
-        // [LƯU Ý] Đảm bảo tên class khớp với file bạn tạo (Dialog hay View)
+        
         ChiTietHoaDonView dialog = new ChiTietHoaDonView(parentFrame);
         dialog.setDetails(maHD, tenKH, tongTien, details);
         dialog.setVisible(true);
