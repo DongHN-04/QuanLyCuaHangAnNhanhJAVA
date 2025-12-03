@@ -20,8 +20,8 @@ public class HoaDonView extends JPanel {
     private DefaultTableModel tableModel;
     
     // Buttons
-    private JButton btnXemChiTiet; // Nút to bên phải
-    private JButton btnThem, btnSua, btnXoa, btnReset; // Các nút chức năng mới
+    private JButton btnXemChiTiet; 
+    private JButton btnThem, btnSua, btnXoa, btnReset; 
 
     public HoaDonView() {
         setLayout(new BorderLayout());
@@ -29,16 +29,30 @@ public class HoaDonView extends JPanel {
     }
 
     private void initUI() {
-        // --- TOP PANEL (Chứa Form + Tất cả các nút) ---
-        JPanel pnlTop = new JPanel(new BorderLayout());
-        pnlTop.setBackground(TEAL_COLOR);
-        pnlTop.setBorder(new EmptyBorder(10, 20, 10, 20));
+// --- 1. TOP CONTAINER (Chứa Tiêu đề + Form + Nút) ---
+        JPanel pnlContainer = new JPanel();
+        pnlContainer.setLayout(new BoxLayout(pnlContainer, BoxLayout.Y_AXIS));
+        pnlContainer.setBackground(TEAL_COLOR);
+        pnlContainer.setBorder(new EmptyBorder(10, 20, 10, 20));
 
-        // 1. LEFT SIDE: Inputs + CRUD Buttons
+        //TIÊU ĐỀ
+        JLabel lblTitle = new JLabel("Thông tin hóa đơn");
+        lblTitle.setForeground(Color.WHITE);
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        pnlContainer.add(lblTitle);
+        pnlContainer.add(Box.createRigidArea(new Dimension(0, 15))); // Khoảng cách dưới tiêu đề
+
+        // --- FORM AREA (Chứa Input và Nút Xem chi tiết) ---
+        JPanel pnlFormArea = new JPanel(new BorderLayout());
+        pnlFormArea.setBackground(TEAL_COLOR);
+
+        // A. LEFT SIDE: Inputs + CRUD Buttons
         JPanel pnlLeft = new JPanel(new BorderLayout());
         pnlLeft.setBackground(TEAL_COLOR);
 
-        // a. Form Inputs
+        // Inputs
         JPanel pnlInputs = new JPanel(new GridBagLayout());
         pnlInputs.setBackground(TEAL_COLOR);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -50,11 +64,9 @@ public class HoaDonView extends JPanel {
         txtMaHD.setBackground(new Color(230, 230, 230));
         txtMaHD.setText("Tự động sinh");
         
-        
         addInput(pnlInputs, gbc, 0, 1, "Nhân viên lập", txtNhanVien = new JTextField(15));
         addInput(pnlInputs, gbc, 0, 2, "Khách hàng", txtKhachHang = new JTextField(15));
         
-        // JDateChooser cho Ngày lập
         txtNgayLap = new JDateChooser();
         txtNgayLap.setDateFormatString("dd/MM/yyyy");
         txtNgayLap.setPreferredSize(new Dimension(150, 25));
@@ -62,42 +74,41 @@ public class HoaDonView extends JPanel {
 
         pnlLeft.add(pnlInputs, BorderLayout.CENTER);
 
-        // b. CRUD Buttons (Thêm, Sửa, Xóa, Reset) - Nằm dưới Form
+        // CRUD Buttons
         JPanel pnlCRUD = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         pnlCRUD.setBackground(TEAL_COLOR);
-        pnlCRUD.setBorder(new EmptyBorder(10, 0, 0, 0)); // Cách form một chút
+        pnlCRUD.setBorder(new EmptyBorder(5, 0, 0, 0));
 
         btnThem = createStyledButton("Thêm");
         btnSua = createStyledButton("Sửa");
         btnXoa = createStyledButton("Xóa");
         btnReset = createStyledButton("Reset");
 
-        pnlCRUD.add(btnThem);
-        pnlCRUD.add(btnSua);
-        pnlCRUD.add(btnXoa);
-        pnlCRUD.add(btnReset);
-
+        pnlCRUD.add(btnThem); pnlCRUD.add(btnSua); pnlCRUD.add(btnXoa); pnlCRUD.add(btnReset);
         pnlLeft.add(pnlCRUD, BorderLayout.SOUTH);
 
-        // 2. RIGHT SIDE: Nút Xem chi tiết (To)
-        JPanel pnlRight = new JPanel(new GridBagLayout()); // Dùng GridBag để căn giữa nút theo chiều dọc
+        // B. RIGHT SIDE: Nút Xem chi tiết
+        JPanel pnlRight = new JPanel(new GridBagLayout());
         pnlRight.setBackground(TEAL_COLOR);
         
         btnXemChiTiet = new JButton("<html><center>Xem chi tiết<br>hóa đơn</center></html>");
         btnXemChiTiet.setPreferredSize(new Dimension(120, 60));
         btnXemChiTiet.setBackground(Color.WHITE);
-        btnXemChiTiet.setForeground(TEAL_COLOR); // Chữ màu xanh cho nổi
+        btnXemChiTiet.setForeground(TEAL_COLOR);
         btnXemChiTiet.setFont(new Font("Segoe UI", Font.BOLD, 13));
         btnXemChiTiet.setFocusPainted(false);
         btnXemChiTiet.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         pnlRight.add(btnXemChiTiet);
 
-        // Thêm Left và Right vào Top Panel
-        pnlTop.add(pnlLeft, BorderLayout.CENTER);
-        pnlTop.add(pnlRight, BorderLayout.EAST);
+        // Add Left & Right vào Form Area
+        pnlFormArea.add(pnlLeft, BorderLayout.CENTER);
+        pnlFormArea.add(pnlRight, BorderLayout.EAST);
 
-        add(pnlTop, BorderLayout.NORTH);
+        // Add Form Area vào Container chính
+        pnlContainer.add(pnlFormArea);
+
+        add(pnlContainer, BorderLayout.NORTH);
 
         // --- CENTER TABLE ---
         String[] columns = {"Mã hóa đơn", "Nhân viên lập", "Tên Khách hàng", "Ngày lập", "Tổng tiền"};

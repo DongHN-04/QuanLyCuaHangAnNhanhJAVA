@@ -41,7 +41,7 @@ public class HoaDonController {
         });
     }
 
-    private void loadData() {
+    public void loadData() {
         view.clearTable();
         List<HoaDon> list = dao.getAll();
         for (HoaDon hd : list) {

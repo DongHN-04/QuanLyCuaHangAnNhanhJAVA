@@ -18,9 +18,12 @@ public class DatMonController {
     private ThucDonDAO menuDao;
     private HoaDonDAO hoaDonDao; 
     private double currentTotal = 0;
-
-    public DatMonController(DatMonView view) {
+    private HoaDonController hoaDonController;
+    
+    
+    public DatMonController(DatMonView view, HoaDonController hoaDonController) {
         this.view = view;
+        this.hoaDonController = hoaDonController;
         this.menuDao = new ThucDonDAO();
         this.hoaDonDao = new HoaDonDAO();
         
@@ -149,6 +152,10 @@ public class DatMonController {
             JOptionPane.showMessageDialog(view, "Thanh toán thành công! Mã HĐ: " + maHD);
             view.getModelGioHang().setRowCount(0); // Xóa trắng giỏ
             updateTongTien();
+            
+            if(hoaDonController != null){
+                hoaDonController.loadData();
+            }
 
         } catch (Exception ex) {
             ex.printStackTrace();
