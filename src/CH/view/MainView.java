@@ -66,7 +66,7 @@ public class MainView extends JFrame {
         pnlContent.add(nhanVienView, "Nhân viên"); 
         pnlContent.add(khachHangView, "Khách hàng");
         pnlContent.add(qlThucDonView, "Thực đơn"); 
-        pnlContent.add(datMonView, "Bán hàng");      
+        pnlContent.add(datMonView, "Đặt Món");      
         pnlContent.add(hoaDonView, "Hóa đơn");
         
         pnlContent.add(createPlaceholderPanel("Quản lý Kho"), "Kho");
@@ -87,7 +87,7 @@ public class MainView extends JFrame {
         pnlSidebar.add(Box.createRigidArea(new Dimension(0, 30))); pnlSidebar.add(lblAdmin); pnlSidebar.add(Box.createRigidArea(new Dimension(0, 40)));
 
         // [QUAN TRỌNG] Tên ở đây phải khớp 100% với tên add ở trên
-        String[] menuItems = {"Trang chủ", "Bán hàng", "Thực đơn", "Nhân viên", "Khách hàng", "Hóa đơn", "Kho", "Doanh thu", "Thoát"};
+        String[] menuItems = {"Trang chủ", "Đặt Món", "Thực đơn", "Nhân viên", "Khách hàng", "Hóa đơn", "Kho", "Doanh thu", "Thoát"};
 
         for (String item : menuItems) {
             JButton btnMenu = createMenuButton(item);
