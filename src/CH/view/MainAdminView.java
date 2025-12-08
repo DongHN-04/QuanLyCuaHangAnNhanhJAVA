@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainView extends JFrame {
+public class MainAdminView extends JFrame {
 
     private final Color SIDEBAR_COLOR = new Color(0, 91, 110);
     private final Color ACCENT_RED = new Color(255, 77, 77);
@@ -23,8 +23,10 @@ public class MainView extends JFrame {
     private HoaDonView hoaDonView;
     private DatMonView datMonView;
     private ThucDonView qlThucDonView;
+    private KhoView qlKhoView;
+    private DoanhThuView doanhThuView;
 
-    public MainView() {
+    public MainAdminView() {
         setTitle("Hệ Thống Quản Lý Cửa Hàng Đồ Ăn Nhanh");
         setSize(1200, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,11 +44,11 @@ public class MainView extends JFrame {
         JPanel pnlUser = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         pnlUser.setBackground(Color.WHITE);
         pnlUser.add(new JLabel("Xin chào, Admin"));
-        JButton btnLogout = new JButton("Đăng Xuất");
+        /*JButton btnLogout = new JButton("Đăng Xuất");
         btnLogout.setBackground(ACCENT_RED); 
         btnLogout.setForeground(Color.BLACK); 
         btnLogout.setFocusPainted(false);
-        pnlUser.add(btnLogout);
+        pnlUser.add(btnLogout);*/
         pnlHeader.add(pnlUser, BorderLayout.EAST);
         add(pnlHeader, BorderLayout.NORTH);
 
@@ -60,6 +62,8 @@ public class MainView extends JFrame {
         hoaDonView = new HoaDonView();
         datMonView = new DatMonView();
         qlThucDonView = new ThucDonView(); 
+        qlKhoView = new KhoView();
+        doanhThuView = new DoanhThuView();
         
         // --- ADD VÀO CARDLAYOUT ---
         pnlContent.add(createTrangChuPanel(), "Trang chủ");
@@ -68,9 +72,8 @@ public class MainView extends JFrame {
         pnlContent.add(qlThucDonView, "Thực đơn"); 
         pnlContent.add(datMonView, "Đặt Món");      
         pnlContent.add(hoaDonView, "Hóa đơn");
-        
-        pnlContent.add(createPlaceholderPanel("Quản lý Kho"), "Kho");
-        pnlContent.add(createPlaceholderPanel("Báo cáo Doanh thu"), "Doanh thu");
+        pnlContent.add(qlKhoView, "Kho");
+        pnlContent.add(doanhThuView, "Doanh thu");
 
         add(pnlContent, BorderLayout.CENTER);
 
@@ -112,7 +115,10 @@ public class MainView extends JFrame {
     public KhachHangView getKhachHangView(){ return khachHangView; }
     public HoaDonView getHoaDonView(){ return hoaDonView; }
     public DatMonView getDatMonView(){ return datMonView; }
-    public ThucDonView getThucDonView(){ return qlThucDonView; } // [Sửa getter]
+    public ThucDonView getThucDonView(){ return qlThucDonView; }
+    public KhoView getKhoView() { return qlKhoView; }
+    public DoanhThuView getDoanhThuView() { return doanhThuView; }
+    // [Sửa getter]
     
     // Helpers
     private JPanel createTrangChuPanel() {
@@ -149,4 +155,5 @@ public class MainView extends JFrame {
             btn.setBackground(SIDEBAR_COLOR);
         }
     }
+
 }
