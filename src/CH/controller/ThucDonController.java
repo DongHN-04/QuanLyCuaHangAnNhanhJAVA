@@ -1,5 +1,6 @@
 package CH.controller;
 
+import CH.dao.KhoDAO;
 import CH.dao.ThucDonDAO;
 import CH.model.MonAn;
 import CH.view.ThucDonView;
@@ -16,12 +17,26 @@ public class ThucDonController {
 
         view.addThemListener(e -> {
             MonAn m = view.getMonAnInfo();
-            if(m.getTenMon().isEmpty()) { JOptionPane.showMessageDialog(view, "Nhập tên món!"); 
-            return; 
+
+            if (m.getTenMon().isEmpty()) {
+                JOptionPane.showMessageDialog(view, "Nhập tên món!");
+                return;
             }
-            m.setMaMon(dao.getNewID()); 
-            if(dao.add(m)) { reload(); JOptionPane.showMessageDialog(view, "Thêm thành công!"); }
+
+            m.setMaMon(dao.getNewID());
+
+            if (dao.add(m)) {
+                KhoDAO kdao = new KhoDAO();
+                // Nếu chưa có trong kho thì thêm mới, mặc định số lượng = 0
+                if (!kdao.exists(m.getMaMon())) {
+                    kdao.insert(m.getMaMon(), 0);
+                }
+
+                reload(); // load lại bảng Thực đơn
+                JOptionPane.showMessageDialog(view, "Thêm món thành công!");
+            }
         });
+
 
         view.addSuaListener(e -> {
             if(view.getSelectedRow() < 0) return;
@@ -48,6 +63,7 @@ public class ThucDonController {
                 view.fillForm(new MonAn(ma, ten, Double.parseDouble(giaStr), dvt));
             }
         });
+        
     }
 
     private void loadData() {

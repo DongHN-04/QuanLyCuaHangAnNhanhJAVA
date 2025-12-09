@@ -8,61 +8,59 @@ package CH.controller;
  *
  * @author NGUYEN HOANG DONG
  */
-import CH.view.KhoView;
 import CH.dao.KhoDAO;
+import CH.view.KhoView;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JOptionPane;
 import CH.model.Kho;
-import javax.swing.*;
 
 public class KhoController {
     private KhoView view;
     private KhoDAO dao;
 
-    public KhoController(KhoView view){
-        this.view=view;
-        this.dao=new KhoDAO();
+    public KhoController(KhoView view) {
+        this.view = view;
+        this.dao = new KhoDAO();
         loadData();
-
-        view.onThem(e->{
-            Kho k = view.getInfo();
-            if(k.getTenNL().isEmpty()){ JOptionPane.showMessageDialog(view,"Nhập tên!"); return;}
-            k.setMaNL(dao.getNewID());
-            if(dao.add(k)){ reload(); JOptionPane.showMessageDialog(view,"Thêm thành công!"); }
-        });
-
-        view.onSua(e->{
-            if(view.getSelectedRow()<0) return;
-            if(dao.update(view.getInfo())){ reload(); JOptionPane.showMessageDialog(view,"Sửa thành công!"); }
-        });
-
-        view.onXoa(e->{
-            if(view.getSelectedRow()<0) return;
-            String ma=view.getInfo().getMaNL();
-            if(JOptionPane.showConfirmDialog(view,"Xóa "+ma+"?")==JOptionPane.YES_OPTION){
-                if(dao.delete(ma)){ reload(); JOptionPane.showMessageDialog(view,"Xóa thành công!"); }
-            }
-        });
-
-        view.onReset(e->view.clearForm());
-
-        view.getTable().getSelectionModel().addListSelectionListener(e->{
-            if(!e.getValueIsAdjusting() && view.getSelectedRow()>=0){
-                int r=view.getSelectedRow();
-                String ma=view.getTable().getValueAt(r,0).toString();
-                String ten=view.getTable().getValueAt(r,1).toString();
-                int sl=Integer.parseInt(view.getTable().getValueAt(r,2).toString());
-                String dvt=view.getTable().getValueAt(r,3).toString();
-                view.fillForm(new Kho(ma,ten,sl,dvt));
-            }
-        });
+        addEvents();
     }
 
-    private void loadData(){
+    private void loadData() {
         view.clearTable();
-        for(Kho k:dao.getAll()) view.addRow(k);
+        dao.getAll().forEach(k -> view.addRow(k));
     }
 
-    private void reload(){
-        loadData(); view.clearForm();
+    private void addEvents() {
+
+        // Sự kiện click bảng
+        view.addTableClickListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                int row = view.getSelectedRow();
+                if(row >= 0) {
+                    String ma = (String) view.getTable().getValueAt(row, 0);
+                    String ten = (String) view.getTable().getValueAt(row, 1);
+                    int sl = (int) view.getTable().getValueAt(row, 2);
+                    view.fillForm(new Kho(ma, ten, sl));
+                }
+            }
+        });
+
+        // Nút nhập kho (tăng thêm số lượng)
+        view.addNhapKhoListener(e -> {
+            Kho k = view.getKhoInfo();
+            if(k.getSoLuong() < 0) {
+                JOptionPane.showMessageDialog(view, "Số lượng phải >=0");
+                return;
+            }
+            dao.updateSoLuong(k.getMaMon(), k.getSoLuong());
+            loadData();
+            JOptionPane.showMessageDialog(view, "Nhập kho thành công!");
+        });
+
+        // Nút reset
+        view.addResetListener(e -> view.clearForm());
     }
 }
+
 

@@ -36,11 +36,11 @@
             <file>file:/E:/QuanLyCuaHangAnNhanhJAVA/src/CH/dao/DoanhThuDAO.java</file>
             <file>file:/E:/QuanLyCuaHangAnNhanhJAVA/src/CH/view/DoanhThuView.java</file>
             <file>file:/E:/QuanLyCuaHangAnNhanhJAVA/src/CH/controller/DoanhThuController.java</file>
-            <file>file:/E:/QuanLyCuaHangAnNhanhJAVA/src/CH/model/TaiKhoan.java</file>
             <file>file:/E:/QuanLyCuaHangAnNhanhJAVA/src/CH/dao/TaiKhoanDAO.java</file>
             <file>file:/E:/QuanLyCuaHangAnNhanhJAVA/src/CH/view/LoginView.java</file>
             <file>file:/E:/QuanLyCuaHangAnNhanhJAVA/src/CH/controller/LoginController.java</file>
             <file>file:/E:/QuanLyCuaHangAnNhanhJAVA/src/CH/view/MainNhanVienView.java</file>
+            <file>file:/E:/QuanLyCuaHangAnNhanhJAVA/src/CH/model/TaiKhoan.java</file>
         </group>
     </open-files>
 </project-private>

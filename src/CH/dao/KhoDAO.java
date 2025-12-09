@@ -10,79 +10,70 @@ package CH.dao;
  */
 import CH.model.Kho;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class KhoDAO {
-    
+
     public List<Kho> getAll() {
         List<Kho> list = new ArrayList<>();
         try {
             Connection cons = DBConnection.getConnection();
-            ResultSet rs = cons.createStatement().executeQuery("SELECT * FROM Kho");
+            String sql = "SELECT t.MaMon, t.TenMon, k.SoLuong "
+                    + "FROM Kho k JOIN ThucDon t ON k.MaMon = t.MaMon";
+            PreparedStatement ps = cons.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Kho(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4)));
+                list.add(new Kho(
+                        rs.getString("MaMon"),
+                        rs.getString("TenMon"),
+                        rs.getInt("SoLuong")
+                ));
             }
-            cons.close();
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return list;
     }
 
-    public boolean add(Kho k) {
+    public boolean updateSoLuong(String maMon, int soLuong) {
         try {
             Connection cons = DBConnection.getConnection();
-            String sql = "INSERT INTO Kho VALUES (?,?,?,?)";
+            String sql = "UPDATE Kho SET SoLuong=? WHERE MaMon=?";
             PreparedStatement ps = cons.prepareStatement(sql);
-            ps.setString(1, k.getMaNL());
-            ps.setString(2, k.getTenNL());
-            ps.setInt(3, k.getSoLuong());
-            ps.setString(4, k.getDonViTinh());
-            int row = ps.executeUpdate();
-            cons.close();
-            return row > 0;
-        } catch (Exception e) { return false; }
+            ps.setInt(1, soLuong);
+            ps.setString(2, maMon);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public boolean update(Kho k) {
+    public boolean insert(String maMon, int soLuong) {
         try {
             Connection cons = DBConnection.getConnection();
-            String sql = "UPDATE Kho SET TenNL=?, SoLuong=?, DonViTinh=? WHERE MaNL=?";
+            String sql = "INSERT INTO Kho(MaMon, SoLuong) VALUES(?, ?)";
             PreparedStatement ps = cons.prepareStatement(sql);
-            ps.setString(1, k.getTenNL());
-            ps.setInt(2, k.getSoLuong());
-            ps.setString(3, k.getDonViTinh());
-            ps.setString(4, k.getMaNL());
-            int row = ps.executeUpdate();
-            cons.close();
-            return row > 0;
-        } catch (Exception e) { return false; }
+            ps.setString(1, maMon);
+            ps.setInt(2, soLuong);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-
-    public boolean delete(String ma) {
-        try {
-            Connection cons = DBConnection.getConnection();
-            PreparedStatement ps = cons.prepareStatement("DELETE FROM Kho WHERE MaNL=?");
-            ps.setString(1, ma);
-            int row = ps.executeUpdate();
-            cons.close();
-            return row > 0;
-        } catch (Exception e) { return false; }
-    }
-
-    // Mã tự tạo NL01 - NL99
-    public String getNewID() {
-        String id = "NL01";
-        try {
-            Connection cons = DBConnection.getConnection();
-            ResultSet rs = cons.createStatement().executeQuery(
-                    "SELECT MaNL FROM Kho ORDER BY length(MaNL) DESC, MaNL DESC LIMIT 1");
-            if (rs.next()) {
-                String last = rs.getString(1).substring(2);
-                int num = Integer.parseInt(last) + 1;
-                id = "NL" + (num < 10 ? "0" + num : num);
-            }
-            cons.close();
-        } catch (Exception e) {}
-        return id;
+    
+    public boolean exists(String maMon) {
+    try {
+        Connection cons = DBConnection.getConnection();
+        String sql = "SELECT MaMon FROM Kho WHERE MaMon = ?";
+        PreparedStatement ps = cons.prepareStatement(sql);
+        ps.setString(1, maMon);
+        ResultSet rs = ps.executeQuery();
+        return rs.next(); // có tồn tại => true
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
     }
 }
-
+}

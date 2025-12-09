@@ -9,32 +9,25 @@ package CH.model;
  * @author NGUYEN HOANG DONG
  */
 public class Kho {
-    private String maNL;
-    private String tenNL;
+    private String maMon;
+    private String tenMon;
     private int soLuong;
-    private String donViTinh;
 
-    public Kho() {}
-
-    public Kho(String maNL, String tenNL, int soLuong, String donViTinh) {
-        this.maNL = maNL;
-        this.tenNL = tenNL;
+    public Kho(String maMon, String tenMon, int soLuong) {
+        this.maMon = maMon;
+        this.tenMon = tenMon;
         this.soLuong = soLuong;
-        this.donViTinh = donViTinh;
     }
 
-    public String getMaNL() { return maNL; }
-    public String getTenNL() { return tenNL; }
+    public String getMaMon() { return maMon; }
+    public String getTenMon() { return tenMon; }
     public int getSoLuong() { return soLuong; }
-    public String getDonViTinh() { return donViTinh; }
 
-    public void setMaNL(String maNL) { this.maNL = maNL; }
-    public void setTenNL(String tenNL) { this.tenNL = tenNL; }
     public void setSoLuong(int soLuong) { this.soLuong = soLuong; }
-    public void setDonViTinh(String donViTinh) { this.donViTinh = donViTinh; }
 
     public Object[] toObjectArray() {
-        return new Object[]{maNL, tenNL, soLuong, donViTinh};
+        return new Object[]{maMon, tenMon, soLuong};
     }
 }
+
 

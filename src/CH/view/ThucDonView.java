@@ -6,6 +6,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import CH.model.MonAn;
+import java.awt.event.MouseAdapter;
 
 public class ThucDonView extends JPanel {
     private JTextField txtMaMon, txtTenMon, txtDonGia, txtDVT;
@@ -80,4 +81,5 @@ public class ThucDonView extends JPanel {
     public void addSuaListener(ActionListener al) { btnSua.addActionListener(al); }
     public void addXoaListener(ActionListener al) { btnXoa.addActionListener(al); }
     public void addResetListener(ActionListener al) { btnReset.addActionListener(al); }
+
 }

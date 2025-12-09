@@ -12,68 +12,97 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionListener;
 import CH.model.Kho;
 
 public class KhoView extends JPanel {
-    private JTextField txtMa, txtTen, txtSL, txtDVT;
+
+    private JTextField txtMaMon, txtTenMon, txtSoLuong;
     private JTable table;
     private DefaultTableModel model;
-    private JButton btnThem, btnSua, btnXoa, btnReset;
+    private JButton btnNhapKho, btnCapNhat, btnReset;
 
     public KhoView() {
         setLayout(new BorderLayout());
-        JPanel p = new JPanel(new GridBagLayout());
-        p.setBackground(new Color(0,77,77));
-        p.setBorder(new EmptyBorder(20,20,20,20));
+        Color TEAL = new Color(0, 77, 77);
+
+        // ===== FORM =====
+        JPanel pnlForm = new JPanel(new GridBagLayout());
+        pnlForm.setBackground(TEAL);
+        pnlForm.setBorder(new EmptyBorder(20, 20, 20, 20));
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5,5,5,5); gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        addInput(p, gbc, 0,0,"Mã NL", txtMa=new JTextField(15)); txtMa.setEditable(false); txtMa.setText("Tự động");
-        addInput(p, gbc, 0,1,"Tên nguyên liệu", txtTen=new JTextField(15));
-        addInput(p, gbc, 0,2,"Số lượng", txtSL=new JTextField(15));
-        addInput(p, gbc, 0,3,"Đơn vị tính", txtDVT=new JTextField(15));
+        // Inputs
+        addInput(pnlForm, gbc, 0, 0, "Mã món", txtMaMon = new JTextField(15));
+        txtMaMon.setEditable(false);
 
-        JPanel btnP = new JPanel(); btnP.setBackground(new Color(0,77,77));
-        btnThem=new JButton("Thêm"); btnSua=new JButton("Sửa"); btnXoa=new JButton("Xóa"); btnReset=new JButton("Reset");
-        btnP.add(btnThem); btnP.add(btnSua); btnP.add(btnXoa); btnP.add(btnReset);
+        addInput(pnlForm, gbc, 0, 1, "Tên món", txtTenMon = new JTextField(15));
+        txtTenMon.setEditable(false);
 
-        JPanel north = new JPanel(new BorderLayout());
-        north.add(p,BorderLayout.CENTER); north.add(btnP,BorderLayout.SOUTH);
-        add(north,BorderLayout.NORTH);
+        addInput(pnlForm, gbc, 0, 2, "Số lượng", txtSoLuong = new JTextField(15));
 
-        model = new DefaultTableModel(new String[]{"Mã NL","Tên NL","Số lượng","ĐVT"},0);
-        table = new JTable(model); table.setRowHeight(25);
+        // ===== BUTTONS =====
+        JPanel pnlBtn = new JPanel();
+        pnlBtn.setBackground(TEAL);
+
+        btnNhapKho = new JButton("Nhập thêm");
+        btnReset = new JButton("Reset");
+
+        pnlBtn.add(btnNhapKho); 
+        pnlBtn.add(btnReset);
+
+        JPanel pnlNorth = new JPanel(new BorderLayout());
+        pnlNorth.add(pnlForm, BorderLayout.CENTER);
+        pnlNorth.add(pnlBtn, BorderLayout.SOUTH);
+        add(pnlNorth, BorderLayout.NORTH);
+
+        // ===== TABLE =====
+        String[] cols = {"Mã món", "Tên món", "Số lượng"};
+        model = new DefaultTableModel(cols, 0);
+        table = new JTable(model);
+        table.setRowHeight(25);
         add(new JScrollPane(table), BorderLayout.CENTER);
     }
 
-    private void addInput(JPanel p, GridBagConstraints gbc,int x,int y,String name,Component c){
-        gbc.gridx=x; gbc.gridy=y; JLabel lb=new JLabel(name); lb.setForeground(Color.WHITE); p.add(lb,gbc);
-        gbc.gridx=x+1; p.add(c,gbc);
+    private void addInput(JPanel p, GridBagConstraints gbc, int x, int y, String lbl, Component cmp) {
+        gbc.gridx = x; gbc.gridy = y;
+        JLabel l = new JLabel(lbl); l.setForeground(Color.WHITE);
+        p.add(l, gbc);
+        gbc.gridx = x+1;
+        p.add(cmp, gbc);
     }
 
-    public Kho getInfo() {
-        int sl=0; try{sl=Integer.parseInt(txtSL.getText());}catch(Exception e){}
-        return new Kho(txtMa.getText(), txtTen.getText(), sl, txtDVT.getText());
+    // ===== METHODS =====
+    public Kho getKhoInfo() {
+        int sl = 0;
+        try { sl = Integer.parseInt(txtSoLuong.getText()); } catch (Exception e) {}
+        return new Kho(txtMaMon.getText(), txtTenMon.getText(), sl);
     }
 
-    public void fillForm(Kho k){
-        txtMa.setText(k.getMaNL()); txtTen.setText(k.getTenNL());
-        txtSL.setText(String.valueOf(k.getSoLuong())); txtDVT.setText(k.getDonViTinh());
+    public void fillForm(Kho k) {
+        txtMaMon.setText(k.getMaMon());
+        txtTenMon.setText(k.getTenMon());
+        txtSoLuong.setText(String.valueOf(k.getSoLuong()));
     }
 
-    public void clearForm(){
-        txtMa.setText("Tự động"); txtTen.setText(""); txtSL.setText(""); txtDVT.setText("");
+    public void clearForm() {
+        txtMaMon.setText(""); txtTenMon.setText(""); txtSoLuong.setText("");
     }
+    
+    public void addTableClickListener(java.awt.event.MouseListener ml) {
+        table.addMouseListener(ml);
+    }
+    
+    public void addRow(Kho k) { model.addRow(k.toObjectArray()); }
+    public void clearTable() { model.setRowCount(0); }
+    public int getSelectedRow() { return table.getSelectedRow(); }
+    public JTable getTable() { return table; }
 
-    public void addRow(Kho k){ model.addRow(k.toObjectArray()); }
-    public void clearTable(){ model.setRowCount(0); }
-    public int getSelectedRow(){ return table.getSelectedRow(); }
-    public JTable getTable(){ return table; }
-
-    public void onThem(ActionListener al){ btnThem.addActionListener(al); }
-    public void onSua(ActionListener al){ btnSua.addActionListener(al); }
-    public void onXoa(ActionListener al){ btnXoa.addActionListener(al); }
-    public void onReset(ActionListener al){ btnReset.addActionListener(al); }
+    // ===== LISTENERS =====
+    public void addNhapKhoListener(ActionListener al) { btnNhapKho.addActionListener(al); }
+    public void addResetListener(ActionListener al) { btnReset.addActionListener(al); }
 }
+
 

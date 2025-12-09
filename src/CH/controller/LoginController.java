@@ -65,6 +65,8 @@ public class LoginController {
             // Truyền biến hoaDonCtrl vào DatMonController
             new DatMonController(mainNhanVienView.getDatMonView(), hoaDonCtrl);
             
+            new KhachHangController(mainNhanVienView.getkhachHangView());
+            
             mainNhanVienView.setVisible(true);
         }
     }

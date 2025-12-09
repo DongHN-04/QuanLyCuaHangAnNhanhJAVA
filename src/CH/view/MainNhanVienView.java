@@ -8,6 +8,7 @@ package CH.view;
  *
  * @author NGUYEN HOANG DONG
  */
+import CH.model.KhachHang;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -26,6 +27,7 @@ public class MainNhanVienView extends JFrame {
     private Map<String, JButton> menuButtons = new HashMap<>();
 
     // Các View Con
+    private KhachHangView khachHangView;
     private HoaDonView hoaDonView;
     private DatMonView datMonView;
 
@@ -62,11 +64,13 @@ public class MainNhanVienView extends JFrame {
         // --- KHỞI TẠO CÁC VIEW CON ---
         hoaDonView = new HoaDonView();
         datMonView = new DatMonView();
+        khachHangView = new KhachHangView();
         
         // --- ADD VÀO CARDLAYOUT ---
         pnlContent.add(createTrangChuPanel(), "Trang chủ"); 
         pnlContent.add(datMonView, "Đặt Món");      
         pnlContent.add(hoaDonView, "Hóa đơn");
+        pnlContent.add(khachHangView, "Khách Hàng");
 
         add(pnlContent, BorderLayout.CENTER);
 
@@ -83,7 +87,7 @@ public class MainNhanVienView extends JFrame {
         pnlSidebar.add(Box.createRigidArea(new Dimension(0, 30))); pnlSidebar.add(lblAdmin); pnlSidebar.add(Box.createRigidArea(new Dimension(0, 40)));
 
         // [QUAN TRỌNG] Tên ở đây phải khớp 100% với tên add ở trên
-        String[] menuItems = {"Trang chủ", "Đặt Món", "Hóa đơn", "Thoát"};
+        String[] menuItems = {"Trang chủ", "Khách Hàng", "Đặt Món", "Hóa đơn", "Thoát"};
 
         for (String item : menuItems) {
             JButton btnMenu = createMenuButton(item);
@@ -106,6 +110,7 @@ public class MainNhanVienView extends JFrame {
     // Getters
     public HoaDonView getHoaDonView(){ return hoaDonView; }
     public DatMonView getDatMonView(){ return datMonView; }
+    public KhachHangView getkhachHangView() { return khachHangView; }
     // [Sửa getter]
     
     // Helpers

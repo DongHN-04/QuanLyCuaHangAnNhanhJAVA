@@ -124,13 +124,14 @@ public class DBConnection {
             
             // 9. Tạo bảng Kho (Nguyên liệu)
             String sqlCreateKho = "CREATE TABLE IF NOT EXISTS Kho ("
-                    + "MaNL VARCHAR(20) NOT NULL PRIMARY KEY,"
-                    + "TenNL VARCHAR(100),"
-                    + "SoLuong INT,"
-                    + "DonViTinh VARCHAR(20)"
+                    + "MaMon VARCHAR(20) NOT NULL PRIMARY KEY,"
+                    + "SoLuong INT DEFAULT 0,"
+                    + "FOREIGN KEY (MaMon) REFERENCES ThucDon(MaMon)"
                     + ") CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
             dbStmt.executeUpdate(sqlCreateKho);
             System.out.println("Da Kiem tra/ Tao bang Kho.");
+            
+            
             
             // (Optional) Tạo thêm các bảng khác ở đây nếu cần (Khách hàng, Hóa đơn...)
             
