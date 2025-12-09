@@ -9,7 +9,7 @@ public class DBConnection {
     // Cấu hình server
     private static final String HOST = "localhost";
     private static final String PORT = "3306";
-    private static final String DB_NAME = "quanlycuahang1";
+    private static final String DB_NAME = "quanlycuahang";
     private static final String USER = "root";
     private static final String PASS = ""; // Điền pass MySQL của bạn nếu có
 
@@ -66,7 +66,10 @@ public class DBConnection {
                     + "GioiTinh VARCHAR(10),"
                     + "ChucVu VARCHAR(50),"
                     + "SoDienThoai VARCHAR(15),"
-                    + "DiaChi VARCHAR(255)"
+                    + "DiaChi VARCHAR(255),"
+                    + "TaiKhoan VARCHAR(50) UNIQUE NOT NULL,"
+                    + "MatKhau VARCHAR(100) NOT NULL,"
+                    + "VaiTro VARCHAR(20) NOT NULL"
                     + ") CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
             
             dbStmt.executeUpdate(sqlCreateTable);
@@ -129,17 +132,6 @@ public class DBConnection {
             dbStmt.executeUpdate(sqlCreateKho);
             System.out.println("Da Kiem tra/ Tao bang Kho.");
             
-            // 10. Tạo bảng Tài khoản (đăng nhập + phân quyền)
-            String sqlCreateTaiKhoan = "CREATE TABLE IF NOT EXISTS TaiKhoan ("
-                    + "TenDangNhap VARCHAR(50) NOT NULL PRIMARY KEY,"
-                    + "MatKhau VARCHAR(100) NOT NULL,"
-                    + "VaiTro VARCHAR(20) NOT NULL" // Admin hoặc NhanVien
-                    + ") CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
-
-            dbStmt.executeUpdate(sqlCreateTaiKhoan);
-            System.out.println("Da Kiem tra/ Tao bang TaiKhoan.");
-
-
             // (Optional) Tạo thêm các bảng khác ở đây nếu cần (Khách hàng, Hóa đơn...)
             
             dbStmt.close();

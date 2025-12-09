@@ -38,17 +38,13 @@ public class NhanVienController {
             if (!e.getValueIsAdjusting()) {
                 int row = view.getSelectedRow();
                 if (row >= 0) {
-                    // Lấy dữ liệu từ dòng được chọn
                     try {
-                        NhanVien nv = new NhanVien(
-                            view.getTable().getValueAt(row, 0).toString(),
-                            view.getTable().getValueAt(row, 1).toString(),
-                            view.getTable().getValueAt(row, 2).toString(),
-                            view.getTable().getValueAt(row, 3).toString(),
-                            view.getTable().getValueAt(row, 4).toString(),
-                            view.getTable().getValueAt(row, 5).toString(),
-                            view.getTable().getValueAt(row, 6).toString()
-                        );
+                        String maNV = view.getTable().getValueAt(row, 0).toString(); // Lấy Mã NV
+
+                        // Lấy thông tin đầy đủ từ DB
+                        NhanVien nv = nhanVienDAO.getByID(maNV);
+
+                        // Đổ lên form
                         view.fillForm(nv);
                     } catch (Exception ex) {
                         ex.printStackTrace();

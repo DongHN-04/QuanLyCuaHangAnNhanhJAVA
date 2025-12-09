@@ -16,11 +16,14 @@ public class NhanVien {
     private String chucVu;
     private String soDienThoai;
     private String diaChi;
+    private String taiKhoan;
+    private String matKhau;
+    private String vaiTro;
 
     public NhanVien() {
     }
 
-    public NhanVien(String maNV, String tenNV, String ngaySinh, String gioiTinh, String chucVu, String soDienThoai, String diaChi) {
+    public NhanVien(String maNV, String tenNV, String ngaySinh, String gioiTinh, String chucVu, String soDienThoai, String diaChi, String taiKhoan, String matKhau, String vaiTro) {
         this.maNV = maNV;
         this.tenNV = tenNV;
         this.ngaySinh = ngaySinh;
@@ -28,6 +31,9 @@ public class NhanVien {
         this.chucVu = chucVu;
         this.soDienThoai = soDienThoai;
         this.diaChi = diaChi;
+        this.taiKhoan = taiKhoan;
+        this.matKhau = matKhau;
+        this.vaiTro = vaiTro;
     }
 
     // Getters and Setters
@@ -74,7 +80,31 @@ public class NhanVien {
         this.diaChi = diaChi; 
     }
     
+    public String getTaiKhoan() {
+        return taiKhoan;
+    }
+
+    public void setTaiKhoan(String taiKhoan) {
+        this.taiKhoan = taiKhoan;
+    }
+
+    public String getMatKhau() {
+        return matKhau;
+    }
+
+    public void setMatKhau(String matKhau) {
+        this.matKhau = matKhau;
+    }
+
+    public String getVaiTro() {
+        return vaiTro;
+    }
+
+    public void setVaiTro(String vaiTro) {
+        this.vaiTro = vaiTro;
+    }
+    
     public Object[] toObjectArray() {
-        return new Object[]{maNV, tenNV, ngaySinh, gioiTinh, chucVu, soDienThoai, diaChi};
+        return new Object[]{maNV, tenNV, ngaySinh, gioiTinh, chucVu, soDienThoai, diaChi, taiKhoan, vaiTro};
     }
 }

@@ -9,18 +9,18 @@ package CH.model;
  * @author NGUYEN HOANG DONG
  */
 public class TaiKhoan {
-    private String tenDangNhap;
+    private String taiKhoan;
     private String matKhau;
     private String vaiTro;
 
-    public TaiKhoan(String tenDangNhap, String matKhau, String vaiTro){
-        this.tenDangNhap = tenDangNhap;
+    public TaiKhoan(String taiKhoan, String matKhau, String vaiTro) {
+        this.taiKhoan = taiKhoan;
         this.matKhau = matKhau;
         this.vaiTro = vaiTro;
     }
 
-    public String getTenDangNhap(){ return tenDangNhap; }
-    public String getMatKhau(){ return matKhau; }
-    public String getVaiTro(){ return vaiTro; }
+    public String getTaiKhoan() { return taiKhoan; }
+    public String getMatKhau() { return matKhau; }
+    public String getVaiTro() { return vaiTro; }
 }
 

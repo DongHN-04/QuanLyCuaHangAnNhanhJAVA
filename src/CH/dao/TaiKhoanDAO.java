@@ -17,13 +17,13 @@ public class TaiKhoanDAO {
         TaiKhoan tk = null;
         try{
             Connection conn = DBConnection.getConnection();
-            String sql = "SELECT * FROM TaiKhoan WHERE TenDangNhap=? AND MatKhau=?";
+            String sql = "SELECT * FROM NhanVien WHERE TaiKhoan=? AND MatKhau=?";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, user);
             pst.setString(2, pass);
             ResultSet rs = pst.executeQuery();
             if(rs.next()){
-                tk = new TaiKhoan(rs.getString("TenDangNhap"),
+                tk = new TaiKhoan(rs.getString("TaiKhoan"),
                                   rs.getString("MatKhau"),
                                   rs.getString("VaiTro"));
             }

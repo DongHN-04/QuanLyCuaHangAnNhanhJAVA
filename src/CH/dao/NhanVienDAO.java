@@ -26,6 +26,9 @@ public class NhanVienDAO {
                 nv.setChucVu(rs.getString("ChucVu"));
                 nv.setSoDienThoai(rs.getString("SoDienThoai"));
                 nv.setDiaChi(rs.getString("DiaChi"));
+                nv.setTaiKhoan(rs.getString("TaiKhoan"));
+                nv.setMatKhau(rs.getString("MatKhau"));
+                nv.setVaiTro(rs.getString("VaiTro"));
                 list.add(nv);
             }
             ps.close();
@@ -35,12 +38,44 @@ public class NhanVienDAO {
         }
         return list;
     }
+    
+    public NhanVien getByID(String maNV) {
+        try {
+            Connection cons = DBConnection.getConnection();
+            String sql = "SELECT * FROM NhanVien WHERE MaNV=?";
+            PreparedStatement ps = cons.prepareStatement(sql);
+            ps.setString(1, maNV);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                NhanVien nv = new NhanVien();
+                nv.setMaNV(rs.getString("MaNV"));
+                nv.setTenNV(rs.getString("TenNV"));
+                nv.setNgaySinh(rs.getString("NgaySinh"));
+                nv.setGioiTinh(rs.getString("GioiTinh"));
+                nv.setChucVu(rs.getString("ChucVu"));
+                nv.setSoDienThoai(rs.getString("SoDienThoai"));
+                nv.setDiaChi(rs.getString("DiaChi"));
+                nv.setTaiKhoan(rs.getString("TaiKhoan"));
+                nv.setMatKhau(rs.getString("MatKhau"));
+                nv.setVaiTro(rs.getString("VaiTro"));
+                rs.close();
+                ps.close();
+                cons.close();
+                return nv;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     // Thêm nhân viên
     public boolean add(NhanVien nv) {
         try {
             Connection cons = DBConnection.getConnection();
-            String sql = "INSERT INTO NhanVien(MaNV, TenNV, NgaySinh, GioiTinh, ChucVu, SoDienThoai, DiaChi) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO NhanVien(MaNV, TenNV, NgaySinh, GioiTinh, ChucVu, SoDienThoai, DiaChi, TaiKhoan, MatKhau, VaiTro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = cons.prepareStatement(sql);
             ps.setString(1, nv.getMaNV());
             ps.setString(2, nv.getTenNV());
@@ -49,6 +84,9 @@ public class NhanVienDAO {
             ps.setString(5, nv.getChucVu());
             ps.setString(6, nv.getSoDienThoai());
             ps.setString(7, nv.getDiaChi());
+            ps.setString(8, nv.getTaiKhoan());
+            ps.setString(9, nv.getMatKhau());
+            ps.setString(10, nv.getVaiTro());
             
             int row = ps.executeUpdate();
             ps.close();
@@ -64,7 +102,7 @@ public class NhanVienDAO {
     public boolean update(NhanVien nv) {
         try {
             Connection cons = DBConnection.getConnection();
-            String sql = "UPDATE NhanVien SET TenNV=?, NgaySinh=?, GioiTinh=?, ChucVu=?, SoDienThoai=?, DiaChi=? WHERE MaNV=?";
+            String sql = "UPDATE NhanVien SET TenNV=?, NgaySinh=?, GioiTinh=?, ChucVu=?, SoDienThoai=?, DiaChi=?, TaiKhoan=?, MatKhau=?, VaiTro=? WHERE MaNV=?";
             PreparedStatement ps = cons.prepareStatement(sql);
             ps.setString(1, nv.getTenNV());
             ps.setString(2, nv.getNgaySinh());
@@ -72,7 +110,10 @@ public class NhanVienDAO {
             ps.setString(4, nv.getChucVu());
             ps.setString(5, nv.getSoDienThoai());
             ps.setString(6, nv.getDiaChi());
-            ps.setString(7, nv.getMaNV());
+            ps.setString(7, nv.getTaiKhoan());
+            ps.setString(8, nv.getMatKhau());
+            ps.setString(9, nv.getVaiTro());
+            ps.setString(10, nv.getMaNV());
 
             int row = ps.executeUpdate();
             ps.close();
