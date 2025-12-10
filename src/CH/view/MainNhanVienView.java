@@ -30,6 +30,7 @@ public class MainNhanVienView extends JFrame {
     private KhachHangView khachHangView;
     private HoaDonView hoaDonView;
     private DatMonView datMonView;
+    private ThucDonView thucDonView;
 
     public MainNhanVienView() {
         setTitle("Hệ Thống Quản Lý Cửa Hàng Đồ Ăn Nhanh");
@@ -49,11 +50,6 @@ public class MainNhanVienView extends JFrame {
         JPanel pnlUser = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         pnlUser.setBackground(Color.WHITE);
         pnlUser.add(new JLabel("Xin chào, Nhân Viên"));
-        /*JButton btnLogout = new JButton("Đăng Xuất");
-        btnLogout.setBackground(ACCENT_RED); 
-        btnLogout.setForeground(Color.BLACK); 
-        btnLogout.setFocusPainted(false);
-        pnlUser.add(btnLogout);*/
         pnlHeader.add(pnlUser, BorderLayout.EAST);
         add(pnlHeader, BorderLayout.NORTH);
 
@@ -65,12 +61,14 @@ public class MainNhanVienView extends JFrame {
         hoaDonView = new HoaDonView();
         datMonView = new DatMonView();
         khachHangView = new KhachHangView();
+        thucDonView = new ThucDonView(); 
         
         // --- ADD VÀO CARDLAYOUT ---
         pnlContent.add(createTrangChuPanel(), "Trang chủ"); 
         pnlContent.add(datMonView, "Đặt Món");      
         pnlContent.add(hoaDonView, "Hóa đơn");
         pnlContent.add(khachHangView, "Khách Hàng");
+        pnlContent.add(thucDonView, "Thực Đơn");
 
         add(pnlContent, BorderLayout.CENTER);
 
@@ -86,8 +84,8 @@ public class MainNhanVienView extends JFrame {
         lblAdmin.setAlignmentX(Component.CENTER_ALIGNMENT);
         pnlSidebar.add(Box.createRigidArea(new Dimension(0, 30))); pnlSidebar.add(lblAdmin); pnlSidebar.add(Box.createRigidArea(new Dimension(0, 40)));
 
-        // [QUAN TRỌNG] Tên ở đây phải khớp 100% với tên add ở trên
-        String[] menuItems = {"Trang chủ", "Khách Hàng", "Đặt Món", "Hóa đơn", "Thoát"};
+        
+        String[] menuItems = {"Trang chủ", "Khách Hàng", "Đặt Món", "Thực Đơn", "Hóa đơn", "Thoát"};
 
         for (String item : menuItems) {
             JButton btnMenu = createMenuButton(item);
@@ -107,21 +105,20 @@ public class MainNhanVienView extends JFrame {
         updateActiveButton("Trang chủ");
     }
 
-    // Getters
-    public HoaDonView getHoaDonView(){ return hoaDonView; }
+   
+    
     public DatMonView getDatMonView(){ return datMonView; }
-    public KhachHangView getkhachHangView() { return khachHangView; }
-    // [Sửa getter]
+    
+    public HoaDonView getHoaDonView(){ return hoaDonView; }
+    public KhachHangView getKhachHangView() { return khachHangView; }
+
+    public ThucDonView getThucDonView() { return thucDonView; }
+    
     
     // Helpers
     private JPanel createTrangChuPanel() {
         JPanel pnl = new JPanel(new GridBagLayout()); pnl.setBackground(Color.WHITE);
         JLabel lbl = new JLabel("Trang Chủ"); lbl.setFont(new Font("Segoe UI", Font.BOLD, 30));
-        pnl.add(lbl); return pnl;
-    }
-    private JPanel createPlaceholderPanel(String title) {
-        JPanel pnl = new JPanel(new GridBagLayout()); pnl.setBackground(Color.WHITE);
-        JLabel lbl = new JLabel(title); lbl.setFont(new Font("Segoe UI", Font.BOLD, 24)); lbl.setForeground(Color.GRAY);
         pnl.add(lbl); return pnl;
     }
     private JButton createMenuButton(String text) {
@@ -147,13 +144,5 @@ public class MainNhanVienView extends JFrame {
             }
             btn.setBackground(SIDEBAR_COLOR);
         }
-    }
-
-    public ThucDonView getThucDonView() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public KhachHangView getKhachHangView() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
