@@ -32,7 +32,7 @@ public class DatMonController {
         // 1. Sự kiện nút "Thêm vào giỏ >>"
         view.addThemListener(e -> themVaoGio());
         
-        // 2. [MỚI] Sự kiện Click đúp chuột vào bảng Menu -> Tự động thêm vào giỏ
+        // 2. Sự kiện Click đúp chuột vào bảng Menu -> Tự động thêm vào giỏ
         view.getTableMenu().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -54,7 +54,9 @@ public class DatMonController {
         });
     }
 
-    private void loadMenu() {
+    public void loadMenu() {
+        DefaultTableModel model = (DefaultTableModel) view.getTableMenu().getModel();
+        model.setRowCount(0);
         List<MonAn> list = menuDao.getAll();
         for (MonAn m : list) view.addMonToMenu(m);
     }
@@ -190,14 +192,12 @@ public class DatMonController {
             // Lưu ý: Việc setValuAt này sẽ kích hoạt lại Listener -> Có thể gây lặp vô tận
             // Nhưng vì ở trên ta có check `if (e.getColumn() == 1)` nên update cột 3 sẽ không sao.
             model.setValueAt(String.format("%,.0f", thanhTienMoi), row, 3);
-            
-            // 5. Cập nhật Tổng tiền bên dưới
+
             updateTongTien();
             
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(view, "Vui lòng chỉ nhập số nguyên!");
-            // Reset lại dòng đó nếu nhập sai
-            // (Bạn có thể thêm logic load lại giá cũ ở đây nếu muốn kỹ hơn)
+
         }
     }
 }

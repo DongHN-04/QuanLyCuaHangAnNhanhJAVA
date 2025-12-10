@@ -246,6 +246,6 @@ public class NhanVienView extends JPanel {
     public void addResetListener(ActionListener al) { btnReset.addActionListener(al); }
 
     public Object getValueAt(int row, int i) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 }

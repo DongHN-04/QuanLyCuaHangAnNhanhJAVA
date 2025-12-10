@@ -42,33 +42,48 @@ public class LoginController {
 
         view.dispose(); // đóng form login
 
-        // PHÂN QUYỀN:
+        // ===============================================================
+        //                          PHÂN QUYỀN
+        // ===============================================================
+        
+        // --- TRƯỜNG HỢP 1: ADMIN ---
         if (tk.getVaiTro().equalsIgnoreCase("Admin")) {
             MainAdminView mainAdminView = new MainAdminView();
 
             new NhanVienController(mainAdminView.getNhanVienView());
             new KhachHangController(mainAdminView.getKhachHangView());
-            // Khởi tạo HoaDonController trước và lưu vào biến
+            
+            // 1. Khởi tạo HoaDonController
             HoaDonController hoaDonCtrl = new HoaDonController(mainAdminView.getHoaDonView());
-            // Truyền biến hoaDonCtrl vào DatMonController
-            new DatMonController(mainAdminView.getDatMonView(), hoaDonCtrl);
-            new ThucDonController(mainAdminView.getThucDonView());
+            
+            // 2. Khởi tạo DatMonController VÀ LƯU VÀO BIẾN
+            DatMonController datMonCtrl = new DatMonController(mainAdminView.getDatMonView(), hoaDonCtrl);
+            
+            // 3.Truyền datMonCtrl vào ThucDonController
+            new ThucDonController(mainAdminView.getThucDonView(), datMonCtrl);
+            
             new KhoController(mainAdminView.getKhoView());
             new DoanhThuController(mainAdminView.getDoanhThuView());
             
             mainAdminView.setVisible(true);
-        } else {
+            
+        } 
+        // --- TRƯỜNG HỢP 2: NHÂN VIÊN ---
+        else {
             MainNhanVienView mainNhanVienView = new MainNhanVienView();
             
-            // Khởi tạo HoaDonController trước và lưu vào biến
+            // 1. Khởi tạo HoaDonController
             HoaDonController hoaDonCtrl = new HoaDonController(mainNhanVienView.getHoaDonView());
-            // Truyền biến hoaDonCtrl vào DatMonController
-            new DatMonController(mainNhanVienView.getDatMonView(), hoaDonCtrl);
             
-            new KhachHangController(mainNhanVienView.getkhachHangView());
+            // 2. Khởi tạo DatMonController VÀ LƯU VÀO BIẾN
+            DatMonController datMonCtrl = new DatMonController(mainNhanVienView.getDatMonView(), hoaDonCtrl);
+            
+            // 3. Truyền datMonCtrl vào ThucDonController
+            new ThucDonController(mainNhanVienView.getThucDonView(), datMonCtrl);
+            
+            new KhachHangController(mainNhanVienView.getKhachHangView());
             
             mainNhanVienView.setVisible(true);
         }
     }
 }
-

@@ -9,10 +9,12 @@ import javax.swing.*;
 public class ThucDonController {
     private ThucDonView view;
     private ThucDonDAO dao;
+    private DatMonController datMonController;
 
-    public ThucDonController(ThucDonView view) {
+    public ThucDonController(ThucDonView view, DatMonController datMonController) {
         this.view = view;
         this.dao = new ThucDonDAO();
+        this.datMonController = datMonController;
         loadData();
 
         view.addThemListener(e -> {
@@ -66,9 +68,15 @@ public class ThucDonController {
         
     }
 
-    private void loadData() {
+    public void loadData() {
         view.clearTable();
         for(MonAn m : dao.getAll()) view.addRow(m);
     }
-    private void reload() { loadData(); view.clearForm(); }
+    private void reload() { 
+        loadData(); 
+        view.clearForm();
+        if (datMonController != null ){
+            datMonController.loadMenu();
+        }
+    }
 }

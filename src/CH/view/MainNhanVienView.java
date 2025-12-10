@@ -148,4 +148,12 @@ public class MainNhanVienView extends JFrame {
             btn.setBackground(SIDEBAR_COLOR);
         }
     }
+
+    public ThucDonView getThucDonView() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public KhachHangView getKhachHangView() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
