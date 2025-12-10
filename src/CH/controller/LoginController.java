@@ -59,10 +59,14 @@ public class LoginController {
             // 2. Khởi tạo DatMonController VÀ LƯU VÀO BIẾN
             DatMonController datMonCtrl = new DatMonController(mainAdminView.getDatMonView(), hoaDonCtrl);
             
-            // 3.Truyền datMonCtrl vào ThucDonController
-            new ThucDonController(mainAdminView.getThucDonView(), datMonCtrl);
+            // 3. Tạo KhoController VÀ LƯU VÀO BIẾN
+            KhoController khoCtrl = new KhoController(mainAdminView.getKhoView()); 
             
-            new KhoController(mainAdminView.getKhoView());
+            
+            // 4.Truyền datMonCtrl vào ThucDonController
+            new ThucDonController(mainAdminView.getThucDonView(), datMonCtrl, khoCtrl);
+            
+
             new DoanhThuController(mainAdminView.getDoanhThuView());
             
             mainAdminView.setVisible(true);
@@ -79,7 +83,7 @@ public class LoginController {
             DatMonController datMonCtrl = new DatMonController(mainNhanVienView.getDatMonView(), hoaDonCtrl);
             
             // 3. Truyền datMonCtrl vào ThucDonController
-            new ThucDonController(mainNhanVienView.getThucDonView(), datMonCtrl);
+            new ThucDonController(mainNhanVienView.getThucDonView(), datMonCtrl, null);
             
             new KhachHangController(mainNhanVienView.getKhachHangView());
             

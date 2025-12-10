@@ -18,7 +18,7 @@ import CH.model.Kho;
 public class KhoController {
     private KhoView view;
     private KhoDAO dao;
-
+   
     public KhoController(KhoView view) {
         this.view = view;
         this.dao = new KhoDAO();
@@ -26,7 +26,7 @@ public class KhoController {
         addEvents();
     }
 
-    private void loadData() {
+    public void loadData() {
         view.clearTable();
         dao.getAll().forEach(k -> view.addRow(k));
     }

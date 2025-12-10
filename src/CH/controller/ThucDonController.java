@@ -10,11 +10,13 @@ public class ThucDonController {
     private ThucDonView view;
     private ThucDonDAO dao;
     private DatMonController datMonController;
+    private KhoController khoController;
 
-    public ThucDonController(ThucDonView view, DatMonController datMonController) {
+    public ThucDonController(ThucDonView view, DatMonController datMonController, KhoController khoController) {
         this.view = view;
         this.dao = new ThucDonDAO();
         this.datMonController = datMonController;
+        this.khoController = khoController;
         loadData();
 
         view.addThemListener(e -> {
@@ -77,6 +79,9 @@ public class ThucDonController {
         view.clearForm();
         if (datMonController != null ){
             datMonController.loadMenu();
+        }
+        if (khoController != null){
+            khoController.loadData();
         }
     }
 }
