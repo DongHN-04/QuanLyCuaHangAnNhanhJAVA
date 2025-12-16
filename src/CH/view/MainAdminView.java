@@ -25,6 +25,7 @@ public class MainAdminView extends JFrame {
     private ThucDonView qlThucDonView;
     private KhoView qlKhoView;
     private DoanhThuView doanhThuView;
+    private TrangChuView trangChuView;
 
     public MainAdminView() {
         setTitle("Hệ Thống Quản Lý Cửa Hàng Đồ Ăn Nhanh");
@@ -64,9 +65,10 @@ public class MainAdminView extends JFrame {
         qlThucDonView = new ThucDonView(); 
         qlKhoView = new KhoView();
         doanhThuView = new DoanhThuView();
+        trangChuView = new TrangChuView();
         
         // --- ADD VÀO CARDLAYOUT ---
-        pnlContent.add(createTrangChuPanel(), "Trang chủ");
+        pnlContent.add(trangChuView, "Trang chủ");
         pnlContent.add(nhanVienView, "Nhân viên"); 
         pnlContent.add(khachHangView, "Khách hàng");
         pnlContent.add(qlThucDonView, "Thực đơn"); 

@@ -27,6 +27,7 @@ public class MainNhanVienView extends JFrame {
     private Map<String, JButton> menuButtons = new HashMap<>();
 
     // Các View Con
+    private TrangChuView trangChuView;
     private KhachHangView khachHangView;
     private HoaDonView hoaDonView;
     private DatMonView datMonView;
@@ -62,9 +63,10 @@ public class MainNhanVienView extends JFrame {
         datMonView = new DatMonView();
         khachHangView = new KhachHangView();
         thucDonView = new ThucDonView(); 
+        trangChuView = new TrangChuView();
         
         // --- ADD VÀO CARDLAYOUT ---
-        pnlContent.add(createTrangChuPanel(), "Trang chủ"); 
+        pnlContent.add(trangChuView, "Trang chủ"); 
         pnlContent.add(datMonView, "Đặt Món");      
         pnlContent.add(hoaDonView, "Hóa đơn");
         pnlContent.add(khachHangView, "Khách Hàng");

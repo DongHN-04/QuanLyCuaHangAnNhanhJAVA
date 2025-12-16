@@ -39,6 +39,8 @@ public class LoginView extends JFrame {
         panel.add(btnLogin);
 
         add(panel);
+        // Cho phép ấn Enter để login
+        getRootPane().setDefaultButton(btnLogin);
     }
 
     public String getUser(){ return txtUser.getText(); }

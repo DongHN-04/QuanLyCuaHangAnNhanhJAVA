@@ -129,14 +129,35 @@ public class HoaDonDAO {
                 cons.createStatement().executeUpdate("INSERT INTO ChiTietHoaDon(MaHD, TenMon, SoLuong, DonGia) VALUES ('HD001', 'Gà rán', 2, 35000)");
                 cons.createStatement().executeUpdate("INSERT INTO ChiTietHoaDon(MaHD, TenMon, SoLuong, DonGia) VALUES ('HD001', 'Khoai tây chiên', 1, 60000)");
                 
-                // Thêm Hóa đơn 2
-                cons.createStatement().executeUpdate("INSERT INTO HoaDon VALUES ('HD002', 'Lê Văn C', 'Khách vãng lai', '02/12/2025', 20000)");
-                cons.createStatement().executeUpdate("INSERT INTO ChiTietHoaDon(MaHD, TenMon, SoLuong, DonGia) VALUES ('HD002', 'Pepsi', 2, 10000)");
-                
                 System.out.println("Đã thêm dữ liệu mẫu cho Hóa đơn.");
             }
             cons.close();
         } catch (Exception e) { e.printStackTrace(); }
+    }
+    public double sumAllTongTien() {
+        double total = 0;
+        String sql = "SELECT SUM(TongTien) FROM HoaDon";
+        try (Connection cons = DBConnection.getConnection();
+             PreparedStatement ps = cons.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                total = rs.getDouble(1);
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        return total;
+    }
+
+    public int countAll() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM HoaDon";
+        try (Connection cons = DBConnection.getConnection();
+             PreparedStatement ps = cons.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        return count;
     }
     public String getNewID() {
         String newID = "HD001"; // Mặc định nếu chưa có hóa đơn nào
