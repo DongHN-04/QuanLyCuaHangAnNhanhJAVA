@@ -56,9 +56,6 @@ public class MainAdminView extends JFrame {
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
         pnlHeader.add(lblTitle, BorderLayout.WEST);
 
-        JLabel lblUser = new JLabel("Xin chào, Admin");
-        pnlHeader.add(lblUser, BorderLayout.EAST);
-
         add(pnlHeader, BorderLayout.NORTH);
     }
 

@@ -68,7 +68,7 @@ public class TrangChuView extends JPanel {
         centerPanel.setBackground(Color.WHITE);
         centerPanel.setBorder(new EmptyBorder(30, 20, 20, 20));
 
-        lblGreeting = new JLabel("Chào Admin!");
+        lblGreeting = new JLabel("Chào !");
         lblGreeting.setFont(new Font("Segoe UI", Font.BOLD, 28));
         lblGreeting.setForeground(PRIMARY_COLOR);
         lblGreeting.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -78,7 +78,7 @@ public class TrangChuView extends JPanel {
         lblDate.setForeground(TEXT_COLOR);
         lblDate.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        lblRole = new JLabel("Vai trò: ADMIN");
+        lblRole = new JLabel("Vai trò: ");
         lblRole.setFont(new Font("Segoe UI", Font.PLAIN, 20));
         lblRole.setForeground(TEXT_COLOR);
         lblRole.setAlignmentX(Component.CENTER_ALIGNMENT);

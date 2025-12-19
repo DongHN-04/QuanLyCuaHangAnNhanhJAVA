@@ -45,9 +45,11 @@ public class LoginController {
         // --- TRƯỜNG HỢP 1: ADMIN ---
         if (tk.getVaiTro().equalsIgnoreCase("Admin")) {
             MainAdminView mainAdminView = new MainAdminView();
+            
+            mainAdminView.getTrangChuView()
+                    .setUserInfo(tk.getTaiKhoan(), tk.getVaiTro());
 
             new NhanVienController(mainAdminView.getNhanVienView());
-            new KhachHangController(mainAdminView.getKhachHangView());
             
             // 1. Khởi tạo HoaDonController
             HoaDonController hoaDonCtrl = new HoaDonController(mainAdminView.getHoaDonView());
@@ -55,14 +57,16 @@ public class LoginController {
             // 2. Khởi tạo KhachHangController và lưu vào biến
             KhachHangController khachHangCtrl = new KhachHangController(mainAdminView.getKhachHangView());
             
-            // 3. Khởi tạo DatMonController VÀ LƯU VÀO BIẾN
-            DatMonController datMonCtrl = new DatMonController(mainAdminView.getDatMonView(), hoaDonCtrl, khachHangCtrl);
-            
             // 3. Tạo KhoController VÀ LƯU VÀO BIẾN
-            KhoController khoCtrl = new KhoController(mainAdminView.getKhoView()); 
+            KhoController khoCtrl = new KhoController(mainAdminView.getKhoView(), null);
             
+            // 4. Khởi tạo DatMonController VÀ LƯU VÀO BIẾN
+            DatMonController datMonCtrl = new DatMonController(mainAdminView.getDatMonView(), hoaDonCtrl, khachHangCtrl, khoCtrl);
             
-            // 4.Truyền datMonCtrl vào ThucDonController
+            // 6. GÁN NGƯỢC datMonCtrl cho khoCtrl
+            khoCtrl.setDatMonController(datMonCtrl);
+                               
+            // 5.Truyền datMonCtrl vào ThucDonController
             new ThucDonController(mainAdminView.getThucDonView(), datMonCtrl, khoCtrl);
             
 
@@ -75,22 +79,21 @@ public class LoginController {
         else {
             MainNhanVienView mainNhanVienView = new MainNhanVienView();
             
+            // SET USER CHO TRANG CHỦ
+            mainNhanVienView.getTrangChuView()
+                    .setUserInfo(tk.getTaiKhoan(), tk.getVaiTro());
+            
             // 1. Khởi tạo HoaDonController
             HoaDonController hoaDonCtrl = new HoaDonController(mainNhanVienView.getHoaDonView());
             // 2. Khởi tạo KhachHangController và lưu vào biến
             KhachHangController khachHangCtrl = new KhachHangController(mainNhanVienView.getKhachHangView());
+                      
+            // 3. Khởi tạo DatMonController VÀ LƯU VÀO BIẾN
+            DatMonController datMonCtrl = new DatMonController(mainNhanVienView.getDatMonView(), hoaDonCtrl, khachHangCtrl, null);
             
-            
-            
-            
-            // 2. Khởi tạo DatMonController VÀ LƯU VÀO BIẾN
-            DatMonController datMonCtrl = new DatMonController(mainNhanVienView.getDatMonView(), hoaDonCtrl, khachHangCtrl);
-            
-            // 3. Truyền datMonCtrl vào ThucDonController
+            // 4. Truyền datMonCtrl vào ThucDonController
             new ThucDonController(mainNhanVienView.getThucDonView(), datMonCtrl, null);
-            
-            new KhachHangController(mainNhanVienView.getKhachHangView());
-            
+                 
             mainNhanVienView.setVisible(true);
         }
     }

@@ -16,19 +16,23 @@
     public class DatMonController {
         private DatMonView view;
         private ThucDonDAO menuDao;
-        private HoaDonDAO hoaDonDao; 
+        private HoaDonDAO hoaDonDao;
+        private KhoDAO khoDao;
         private double currentTotal = 0;
         private HoaDonController hoaDonController;
         private KhachHangController khachHangController;
+        private KhoController khoController;
 
 
-        public DatMonController(DatMonView view, HoaDonController hoaDonController,KhachHangController khachHangController) {
+        public DatMonController(DatMonView view, HoaDonController hoaDonController,KhachHangController khachHangController, KhoController khoController) {
             this.view = view;
-            this.hoaDonController = hoaDonController;
             this.menuDao = new ThucDonDAO();
             this.hoaDonDao = new HoaDonDAO();
+            this.khoDao = new KhoDAO();
             
             this.khachHangController = khachHangController;
+            this.hoaDonController = hoaDonController;
+            this.khoController = khoController;
 
             loadMenu();
 
@@ -60,12 +64,46 @@
         public void loadMenu() {
             DefaultTableModel model = (DefaultTableModel) view.getTableMenu().getModel();
             model.setRowCount(0);
-            List<MonAn> list = menuDao.getAll();
-            for (MonAn m : list) view.addMonToMenu(m);
+
+            List<MonAn> listMon = menuDao.getAll();
+            List<Kho> listKho = khoDao.getAll();
+
+            for (MonAn m : listMon) {
+
+                // tìm tồn kho theo mã món
+                Kho kho = listKho.stream()
+                        .filter(k -> k.getMaMon().equals(m.getMaMon()))
+                        .findFirst()
+                        .orElse(null);
+
+                int soLuongTon = (kho != null) ? kho.getSoLuong() : 0;
+
+                String trangThai = soLuongTon > 0 ? "Còn món" : "Hết món";
+
+                model.addRow(new Object[]{
+                    m.getMaMon(),
+                    m.getTenMon(),
+                    String.format("%,.0f", m.getDonGia()),
+                    m.getDonViTinh(),
+                    trangThai
+                });
+            }
         }
 
         private void themVaoGio() {
             int row = view.getTableMenu().getSelectedRow();
+            
+            String trangThai = view.getTableMenu().getValueAt(row, 4).toString();
+            if (trangThai.equalsIgnoreCase("Hết món")) {
+                JOptionPane.showMessageDialog(
+                        view,
+                        "Món này đã hết!\nVui lòng chọn món khác.",
+                        "Hết hàng",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
+            
             if (row >= 0) {
                 String ten = view.getTableMenu().getValueAt(row, 1).toString();
                 // Xử lý giá tiền (bỏ dấu phẩy, chấm để tính toán)
@@ -176,10 +214,40 @@
                     ps.executeUpdate();
                 }
                 conn.close();
+                
+                //  trừ kho
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    String tenMon = model.getValueAt(i, 0).toString();
+                    int soLuongBan = Integer.parseInt(model.getValueAt(i, 1).toString());
+
+                    // Lấy mã món
+                    String maMon = menuDao.getAll().stream()
+                            .filter(m -> m.getTenMon().equalsIgnoreCase(tenMon))
+                            .findFirst().get().getMaMon();
+
+                    // Lấy tồn kho
+                    Kho kho = khoDao.getAll().stream()
+                            .filter(k -> k.getMaMon().equals(maMon))
+                            .findFirst().orElse(null);
+
+                    if (kho == null || kho.getSoLuong() < soLuongBan) {
+                        JOptionPane.showMessageDialog(view,
+                                "Không đủ kho cho món: " + tenMon);
+                        return;
+                    }
+
+                    // Trừ kho
+                    khoDao.updateSoLuong(maMon, kho.getSoLuong() - soLuongBan);
+                    //LOAD BẢNG KHO NGAY LẬP TỨC
+                    if (khoController != null) {
+                        khoController.loadData();
+                    }
+                }
 
                 JOptionPane.showMessageDialog(view, "Thanh toán thành công! Khách hàng ");
                 view.getModelGioHang().setRowCount(0);
                 updateTongTien();
+                loadMenu();
 
                 if (hoaDonController != null) hoaDonController.loadData();
 

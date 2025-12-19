@@ -18,10 +18,12 @@ import CH.model.Kho;
 public class KhoController {
     private KhoView view;
     private KhoDAO dao;
+    private DatMonController datMonController;
    
-    public KhoController(KhoView view) {
+    public KhoController(KhoView view, DatMonController datMonController) {
         this.view = view;
         this.dao = new KhoDAO();
+        this.datMonController = datMonController;
         loadData();
         addEvents();
     }
@@ -49,17 +51,29 @@ public class KhoController {
         // Nút nhập kho (tăng thêm số lượng)
         view.addNhapKhoListener(e -> {
             Kho k = view.getKhoInfo();
-            if(k.getSoLuong() < 0) {
-                JOptionPane.showMessageDialog(view, "Số lượng phải >=0");
+            if (k.getMaMon() == null || k.getMaMon().isEmpty()) {
+                JOptionPane.showMessageDialog(view, "Vui lòng chọn món trong kho!");
                 return;
             }
-            dao.updateSoLuong(k.getMaMon(), k.getSoLuong());
-            loadData();
-            JOptionPane.showMessageDialog(view, "Nhập kho thành công!");
+            if(k.getSoLuong() <= 0) {
+                JOptionPane.showMessageDialog(view, "Số lượng phải >0");
+                return;
+            }
+            if (dao.updateSoLuong(k.getMaMon(), k.getSoLuong())) {
+                loadData();
+                if (datMonController != null) {
+                    datMonController.loadMenu(); // CẬP NHẬT MENU NGAY
+                }
+                JOptionPane.showMessageDialog(view, "Nhập kho thành công!");
+            }
         });
 
         // Nút reset
         view.addResetListener(e -> view.clearForm());
+    }
+    
+    public void setDatMonController(DatMonController datMonController) {
+        this.datMonController = datMonController;
     }
 }
 

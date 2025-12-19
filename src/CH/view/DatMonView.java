@@ -22,7 +22,7 @@ public class DatMonView extends JPanel {
         JPanel pnlLeft = new JPanel(new BorderLayout());
         pnlLeft.setBorder(new TitledBorder("THỰC ĐƠN"));
         
-        String[] colMenu = {"Mã", "Tên món", "Đơn giá", "ĐVT"};
+        String[] colMenu = {"Mã", "Tên món", "Đơn giá", "ĐVT", "Trạng Thái"};
         modelMenu = new DefaultTableModel(colMenu, 0) {
             public boolean isCellEditable(int row, int column) { return false; }
         };

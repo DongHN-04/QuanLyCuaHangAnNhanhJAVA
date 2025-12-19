@@ -26,6 +26,20 @@ public class ThucDonController {
                 JOptionPane.showMessageDialog(view, "Nhập tên món!");
                 return;
             }
+            
+            // Kiểm tra trùng tên 
+            boolean trungTen = dao.getAll().stream()
+                    .anyMatch(mon -> mon.getTenMon().equalsIgnoreCase(m.getTenMon()));
+
+            if (trungTen) {
+                JOptionPane.showMessageDialog(
+                        view,
+                        "Món \"" + m.getTenMon() + "\" đã tồn tại!\nVui lòng nhập tên khác.",
+                        "Trùng dữ liệu",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
 
             m.setMaMon(dao.getNewID());
 
@@ -43,15 +57,38 @@ public class ThucDonController {
 
 
         view.addSuaListener(e -> {
-            if(view.getSelectedRow() < 0) return;
+            if (view.getSelectedRow() < 0) {
+                JOptionPane.showMessageDialog(view, "Vui lòng chọn món muốn sửa!");
+                return;
+            }
             if(dao.update(view.getMonAnInfo())) { reload(); JOptionPane.showMessageDialog(view, "Sửa thành công!"); }
         });
 
         view.addXoaListener(e -> {
-            if(view.getSelectedRow() < 0) return;
-            String ma = view.getMonAnInfo().getMaMon();
-            if(JOptionPane.showConfirmDialog(view, "Xóa " + ma + "?") == JOptionPane.YES_OPTION) {
-                if(dao.delete(ma)) { reload(); JOptionPane.showMessageDialog(view, "Xóa thành công!"); }
+            if (view.getSelectedRow() < 0) {
+                JOptionPane.showMessageDialog(view, "Vui lòng chọn món muốn xóa!");
+                return;
+            }
+            String ma = view.getTable().getValueAt(view.getSelectedRow(), 0).toString();
+            String ten = view.getTable().getValueAt(view.getSelectedRow(), 1).toString();
+
+            int confirm = JOptionPane.showConfirmDialog(
+                    view,
+                    "Bạn có chắc muốn xóa món \"" + ten + "\"?\n(Dữ liệu kho cũng sẽ bị xóa)",
+                    "Xác nhận xóa",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                KhoDAO khoDao = new KhoDAO();
+                // XÓA TRONG KHO TRƯỚC
+                khoDao.deleteByMaMon(ma);
+
+                // XÓA THỰC ĐƠN
+                if (dao.delete(ma)) {
+                    reload();
+                    JOptionPane.showMessageDialog(view, "Xóa thành công!");
+                }
             }
         });
         

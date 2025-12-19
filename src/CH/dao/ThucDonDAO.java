@@ -86,6 +86,25 @@
             } catch (Exception e) {}
             return newID;
         }
+        
+        // 6. Lấy mã món theo tên món (dùng khi trừ kho)
+        public String getMaMonByTen(String tenMon) {
+            try {
+                Connection cons = DBConnection.getConnection();
+                String sql = "SELECT MaMon FROM ThucDon WHERE TenMon = ?";
+                PreparedStatement ps = cons.prepareStatement(sql);
+                ps.setString(1, tenMon);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    return rs.getString("MaMon");
+                }
+                cons.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
         public int countAll() {
         int count = 0;
         try (Connection cons = DBConnection.getConnection();

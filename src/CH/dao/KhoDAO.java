@@ -62,18 +62,34 @@ public class KhoDAO {
             return false;
         }
     }
-    
+
     public boolean exists(String maMon) {
-    try {
-        Connection cons = DBConnection.getConnection();
-        String sql = "SELECT MaMon FROM Kho WHERE MaMon = ?";
-        PreparedStatement ps = cons.prepareStatement(sql);
-        ps.setString(1, maMon);
-        ResultSet rs = ps.executeQuery();
-        return rs.next(); // có tồn tại => true
-    } catch (Exception e) {
-        e.printStackTrace();
-        return false;
+        try {
+            Connection cons = DBConnection.getConnection();
+            String sql = "SELECT MaMon FROM Kho WHERE MaMon = ?";
+            PreparedStatement ps = cons.prepareStatement(sql);
+            ps.setString(1, maMon);
+            ResultSet rs = ps.executeQuery();
+            return rs.next(); // có tồn tại => true
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-}
+    public boolean deleteByMaMon(String maMon) {
+        try {
+            Connection con = DBConnection.getConnection();
+            String sql = "DELETE FROM Kho WHERE MaMon = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, maMon);
+            ps.executeUpdate();
+            ps.close();
+            con.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

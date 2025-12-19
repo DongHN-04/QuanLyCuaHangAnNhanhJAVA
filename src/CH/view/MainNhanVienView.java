@@ -52,9 +52,6 @@ public class MainNhanVienView extends JFrame {
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
         pnlHeader.add(lblTitle, BorderLayout.WEST);
 
-        JLabel lblUser = new JLabel("Xin chào, Nhân Viên");
-        pnlHeader.add(lblUser, BorderLayout.EAST);
-
         add(pnlHeader, BorderLayout.NORTH);
     }
 
@@ -203,6 +200,7 @@ public class MainNhanVienView extends JFrame {
     }
 
     // ================= GETTERS =================
+    public TrangChuView getTrangChuView() { return trangChuView; }
     public DatMonView getDatMonView() { return datMonView; }
     public HoaDonView getHoaDonView() { return hoaDonView; }
     public KhachHangView getKhachHangView() { return khachHangView; }
