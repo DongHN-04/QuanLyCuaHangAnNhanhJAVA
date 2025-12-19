@@ -14,7 +14,7 @@ public class ChiTietHoaDonView extends JDialog {
     private JLabel lblMaHD, lblKhachHang, lblTongTien;
 
     public ChiTietHoaDonView(JFrame parent) {
-        super(parent, "Chi tiết hóa đơn", true); // true = Modal (bắt buộc đóng mới thao tác tiếp đc)
+        super(parent, "Chi tiết hóa đơn", true);
         setSize(600, 500);
         setLocationRelativeTo(parent);
         setLayout(new BorderLayout());

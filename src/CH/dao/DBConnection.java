@@ -1,153 +1,155 @@
-    package CH.dao;
+package CH.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
 public class DBConnection {
-    
-    // Cấu hình server
-    private static final String HOST = "localhost";
-    private static final String PORT = "3306";
-    private static final String DB_NAME = "quanlycuahangannhanh";
-    private static final String USER = "root";
-    private static final String PASS = "070704"; // Điền pass MySQL của bạn nếu có
 
-    // URL kết nối chỉ đến Server (để tạo DB nếu chưa có)
-    private static final String SERVER_URL = "jdbc:mysql://" + HOST + ":" + PORT + "/";
-    
-    // URL kết nối đến Database cụ thể (để thao tác dữ liệu)
-    private static final String DB_URL = SERVER_URL + DB_NAME;
+    // ===== LẤY CẤU HÌNH TỪ ENV (ƯU TIÊN) =====
+    private static final String HOST = System.getenv().getOrDefault("DB_HOST", "localhost");
+    private static final String PORT = System.getenv().getOrDefault("DB_PORT", "3306");
+    private static final String DB_NAME = System.getenv().getOrDefault("DB_NAME", "quanlycuahangannhanh");
+    private static final String USER = System.getenv().getOrDefault("DB_USER", "root");
+    private static final String PASS = System.getenv().getOrDefault("DB_PASS", "070704");
+
+    // URL kết nối server
+    private static final String SERVER_URL =
+            "jdbc:mysql://" + HOST + ":" + PORT +
+            "/?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Ho_Chi_Minh";
+
+    // URL kết nối database
+    private static final String DB_URL = SERVER_URL + "&useUnicode=true&characterEncoding=utf8";
 
     /**
-     * Hàm này dùng để lấy kết nối thao tác dữ liệu
+     * Lấy kết nối thao tác dữ liệu
      */
     public static Connection getConnection() {
-        Connection cons = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            cons = DriverManager.getConnection(DB_URL, USER, PASS);
+            return DriverManager.getConnection(
+                    "jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME +
+                    "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Ho_Chi_Minh" +
+                    "&useUnicode=true&characterEncoding=utf8",
+                    USER,
+                    PASS
+            );
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return cons;
     }
 
     /**
-     * [MỚI] Hàm kiểm tra và tự động tạo Database + Bảng nếu chưa có
-     * Chạy hàm này đầu tiên khi khởi động Main
+     * Khởi tạo Database + Bảng
+     * GỌI 1 LẦN DUY NHẤT KHI CHẠY MAIN
      */
     public static void initializeDatabase() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            
-            // 1. Kết nối vào Server MySQL (chưa vào DB cụ thể)
+
+            // 1. Kết nối server MySQL
             Connection serverConn = DriverManager.getConnection(SERVER_URL, USER, PASS);
             Statement stmt = serverConn.createStatement();
 
-            // 2. Tạo Database nếu chưa tồn tại
-            String sqlCreateDB = "CREATE DATABASE IF NOT EXISTS " + DB_NAME;
-            stmt.executeUpdate(sqlCreateDB);
+            // 2. Tạo database nếu chưa tồn tại
+            stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS " + DB_NAME +
+                    " CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
             System.out.println("Da Kiem Tra Database: " + DB_NAME);
-            
-            // Đóng kết nối server để chuyển sang kết nối DB
+
             stmt.close();
             serverConn.close();
 
-            // 3. Kết nối vào Database vừa tạo để tạo Bảng
-            Connection dbConn = DriverManager.getConnection(DB_URL, USER, PASS);
+            // 3. Kết nối vào DB
+            Connection dbConn = getConnection();
             Statement dbStmt = dbConn.createStatement();
 
-            // 4. Tạo bảng NhanVien nếu chưa tồn tại
-            String sqlCreateTable = "CREATE TABLE IF NOT EXISTS NhanVien ("
-                    + "MaNV VARCHAR(20) NOT NULL PRIMARY KEY,"
-                    + "TenNV VARCHAR(100) NOT NULL,"
-                    + "NgaySinh VARCHAR(20),"
-                    + "GioiTinh VARCHAR(10),"
-                    + "ChucVu VARCHAR(50),"
-                    + "SoDienThoai VARCHAR(15),"
-                    + "DiaChi VARCHAR(255),"
-                    + "TaiKhoan VARCHAR(50) UNIQUE NOT NULL,"
-                    + "MatKhau VARCHAR(100) NOT NULL,"
-                    + "VaiTro VARCHAR(20) NOT NULL"
-                    + ") CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
-            
-            dbStmt.executeUpdate(sqlCreateTable);
-            System.out.println("Da Kiem tra/ Tao bang NhanVien.");
-            String sqlCreateAdmin =
-                    "INSERT INTO NhanVien (MaNV, TenNV, NgaySinh, GioiTinh, ChucVu, SoDienThoai, DiaChi, TaiKhoan, MatKhau, VaiTro) " +
-                    "SELECT 'ADMIN01', 'Quản trị hệ thống', '1990-01-01', 'Nam', 'Admin', " +
-                    "'0123456789', 'Hệ thống', 'admin', 'admin123', 'ADMIN' " +
-                    "WHERE NOT EXISTS (SELECT 1 FROM NhanVien WHERE TaiKhoan = 'admin');";
+            // === NHANVIEN ===
+            dbStmt.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS NhanVien (" +
+                    "MaNV VARCHAR(20) PRIMARY KEY," +
+                    "TenNV VARCHAR(100) NOT NULL," +
+                    "NgaySinh VARCHAR(20)," +
+                    "GioiTinh VARCHAR(10)," +
+                    "ChucVu VARCHAR(50)," +
+                    "SoDienThoai VARCHAR(15)," +
+                    "DiaChi VARCHAR(255)," +
+                    "TaiKhoan VARCHAR(50) UNIQUE NOT NULL," +
+                    "MatKhau VARCHAR(100) NOT NULL," +
+                    "VaiTro VARCHAR(20) NOT NULL" +
+                    ")"
+            );
 
-            dbStmt.executeUpdate(sqlCreateAdmin);
-            System.out.println("Da kiem tra / Tao tai khoan ADMIN mac dinh.");
-            
-            // 4. Tạo bảng KhachHang nếu chưa tồn tại [MỚI THÊM]
-            String sqlCreateKhachHang = "CREATE TABLE IF NOT EXISTS KhachHang ("
-                    + "MaKH VARCHAR(20) NOT NULL PRIMARY KEY,"
-                    + "TenKH VARCHAR(100) NOT NULL,"
-                    + "TheLoai VARCHAR(20),"
-                    + "GioiTinh VARCHAR(10),"
-                    + "SoDienThoai VARCHAR(15),"
-                    + "DiaChi VARCHAR(255)"
-                    + ") CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
-            
-            dbStmt.executeUpdate(sqlCreateKhachHang);
-            System.out.println("Da kiem tra/ Tao bang KhachHang.");
-            
-            // 6. Tạo bảng HoaDon [MỚI]
-            String sqlCreateHoaDon = "CREATE TABLE IF NOT EXISTS HoaDon ("
-                    + "MaHD VARCHAR(20) NOT NULL PRIMARY KEY,"
-                    + "TenNV VARCHAR(100)," // Lưu tên cho nhanh (thực tế nên lưu MaNV)
-                    + "TenKH VARCHAR(100)," // Lưu tên cho nhanh (thực tế nên lưu MaKH)
-                    + "NgayLap VARCHAR(20),"
-                    + "TongTien DOUBLE"
-                    + ") CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
-            dbStmt.executeUpdate(sqlCreateHoaDon);
-            System.out.println("Da Kiem tra/ Tao bang HoaDon.");
+            // Admin mặc định
+            dbStmt.executeUpdate(
+                    "INSERT INTO NhanVien " +
+                    "(MaNV, TenNV, NgaySinh, GioiTinh, ChucVu, SoDienThoai, DiaChi, TaiKhoan, MatKhau, VaiTro) " +
+                    "SELECT 'ADMIN01','Quản trị hệ thống','1990-01-01','Nam','Admin','0123456789','Hệ thống','admin','admin123','ADMIN' " +
+                    "WHERE NOT EXISTS (SELECT 1 FROM NhanVien WHERE TaiKhoan='admin')"
+            );
 
-            // 7. Tạo bảng ChiTietHoaDon [MỚI]
-            String sqlCreateChiTiet = "CREATE TABLE IF NOT EXISTS ChiTietHoaDon ("
-                    + "ID INT AUTO_INCREMENT PRIMARY KEY," // Khóa chính tự tăng
-                    + "MaHD VARCHAR(20) NOT NULL,"
-                    + "TenMon VARCHAR(100),"
-                    + "SoLuong INT,"
-                    + "DonGia DOUBLE,"
-                    + "CONSTRAINT fk_hoadon FOREIGN KEY (MaHD) REFERENCES HoaDon(MaHD) ON DELETE CASCADE"
-                    + ") CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
-            dbStmt.executeUpdate(sqlCreateChiTiet);
-            System.out.println("Da Kiem tra/ Tao bang ChiTietHoaDon.");
-            
-            // 8. Tạo bảng ThucDon (Menu)
-            String sqlCreateThucDon = "CREATE TABLE IF NOT EXISTS ThucDon ("
-                    + "MaMon VARCHAR(20) NOT NULL PRIMARY KEY,"
-                    + "TenMon VARCHAR(100),"
-                    + "DonGia DOUBLE,"
-                    + "DonViTinh VARCHAR(20)"
-                    + ") CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
-            dbStmt.executeUpdate(sqlCreateThucDon);
-            System.out.println("Da Kiem tra/ Tao bang ThucDon.");
-            
-            // 9. Tạo bảng Kho (Nguyên liệu)
-            String sqlCreateKho = "CREATE TABLE IF NOT EXISTS Kho ("
-                    + "MaMon VARCHAR(20) NOT NULL PRIMARY KEY,"
-                    + "SoLuong INT DEFAULT 0,"
-                    + "FOREIGN KEY (MaMon) REFERENCES ThucDon(MaMon)"
-                    + ") CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";
-            dbStmt.executeUpdate(sqlCreateKho);
-            System.out.println("Da Kiem tra/ Tao bang Kho.");
-            
-            
-            
-            // (Optional) Tạo thêm các bảng khác ở đây nếu cần (Khách hàng, Hóa đơn...)
-            
+            // === KHACHHANG ===
+            dbStmt.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS KhachHang (" +
+                    "MaKH VARCHAR(20) PRIMARY KEY," +
+                    "TenKH VARCHAR(100)," +
+                    "TheLoai VARCHAR(20)," +
+                    "GioiTinh VARCHAR(10)," +
+                    "SoDienThoai VARCHAR(15)," +
+                    "DiaChi VARCHAR(255)" +
+                    ")"
+            );
+
+            // === THUCDON ===
+            dbStmt.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS ThucDon (" +
+                    "MaMon VARCHAR(20) PRIMARY KEY," +
+                    "TenMon VARCHAR(100)," +
+                    "DonGia DOUBLE," +
+                    "DonViTinh VARCHAR(20)" +
+                    ")"
+            );
+
+            // === HOADON ===
+            dbStmt.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS HoaDon (" +
+                    "MaHD VARCHAR(20) PRIMARY KEY," +
+                    "TenNV VARCHAR(100)," +
+                    "TenKH VARCHAR(100)," +
+                    "NgayLap VARCHAR(20)," +
+                    "TongTien DOUBLE" +
+                    ")"
+            );
+
+            // === CHITIETHOADON ===
+            dbStmt.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS ChiTietHoaDon (" +
+                    "ID INT AUTO_INCREMENT PRIMARY KEY," +
+                    "MaHD VARCHAR(20)," +
+                    "TenMon VARCHAR(100)," +
+                    "SoLuong INT," +
+                    "DonGia DOUBLE," +
+                    "FOREIGN KEY (MaHD) REFERENCES HoaDon(MaHD) ON DELETE CASCADE" +
+                    ")"
+            );
+
+            // === KHO ===
+            dbStmt.executeUpdate(
+                    "CREATE TABLE IF NOT EXISTS Kho (" +
+                    "MaMon VARCHAR(20) PRIMARY KEY," +
+                    "SoLuong INT DEFAULT 0," +
+                    "FOREIGN KEY (MaMon) REFERENCES ThucDon(MaMon)" +
+                    ")"
+            );
+
             dbStmt.close();
             dbConn.close();
 
+            System.out.println("Khoi tao Database & Bang thanh cong!");
+
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Lỗi khởi tạo Database! Kiểm tra xem XAMPP/MySQL đã bật chưa?");
+            System.err.println("Loi khoi tao Database!");
         }
     }
 }

@@ -50,6 +50,15 @@ public class KhachHangController {
                 }
             }
         });
+        view.addTimKiemListener(e -> searchKhachHang());
+
+        view.getTxtSearch().addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchKhachHang();
+            }
+        });
+ 
     }
 
     public void loadDataToView() {
@@ -148,4 +157,27 @@ public class KhachHangController {
             }
         }
     }
+    public void searchKhachHang() {
+        String keyword = view.getTxtSearch().getText().trim();
+
+        // Nếu không nhập gì → load lại toàn bộ
+        if (keyword.isEmpty()) {
+            loadDataToView();
+            return;
+        }
+
+        List<KhachHang> list = khachHangDAO.search(keyword);
+
+        view.clearTable();
+
+        if (list.isEmpty()) {
+            JOptionPane.showMessageDialog(view, "Không tìm thấy khách hàng phù hợp!");
+            return;
+        }
+
+        for (KhachHang kh : list) {
+            view.addRowToTable(kh);
+        }
+    }
+
 }

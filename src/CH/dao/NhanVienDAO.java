@@ -171,4 +171,39 @@ public class NhanVienDAO {
         }
         return newID;
     }
+    public List<NhanVien> search(String keyword) {
+        List<NhanVien> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM NhanVien "
+                   + "WHERE TenNV LIKE ? OR SoDienThoai LIKE ? OR MaNV LIKE ?";
+
+        try (Connection cons = DBConnection.getConnection();
+             PreparedStatement ps = cons.prepareStatement(sql)) {
+
+            String key = "%" + keyword + "%";
+            ps.setString(1, key);
+            ps.setString(2, key);
+            ps.setString(3, key);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                NhanVien nv = new NhanVien();
+                nv.setMaNV(rs.getString("MaNV"));
+                nv.setTenNV(rs.getString("TenNV"));
+                nv.setNgaySinh(rs.getString("NgaySinh"));
+                nv.setGioiTinh(rs.getString("GioiTinh"));
+                nv.setChucVu(rs.getString("ChucVu"));
+                nv.setSoDienThoai(rs.getString("SoDienThoai"));
+                nv.setDiaChi(rs.getString("DiaChi"));
+                nv.setTaiKhoan(rs.getString("TaiKhoan"));
+                nv.setMatKhau(rs.getString("MatKhau"));
+                nv.setVaiTro(rs.getString("VaiTro"));
+                list.add(nv);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 }

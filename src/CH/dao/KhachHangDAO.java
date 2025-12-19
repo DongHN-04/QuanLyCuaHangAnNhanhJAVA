@@ -126,4 +126,33 @@ public class KhachHangDAO {
         } catch (Exception e) { e.printStackTrace(); }
         return count;
     } 
+    public List<KhachHang> search(String keyword) {
+        List<KhachHang> list = new ArrayList<>();
+        // Tìm kiếm theo Tên, Số điện thoại hoặc Mã khách hàng
+        String sql = "SELECT MaKH, TenKH, TheLoai, GioiTinh, SoDienThoai, DiaChi FROM KhachHang "
+                   + "WHERE TenKH LIKE ? OR SoDienThoai LIKE ? OR MaKH LIKE ?";
+        try (Connection cons = DBConnection.getConnection();
+             PreparedStatement ps = cons.prepareStatement(sql)) {
+
+            String searchKey = "%" + keyword + "%";
+            ps.setString(1, searchKey);
+            ps.setString(2, searchKey);
+            ps.setString(3, searchKey);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new KhachHang(
+                    rs.getString("MaKH"),
+                    rs.getString("TenKH"),
+                    rs.getString("TheLoai"),
+                    rs.getString("GioiTinh"),
+                    rs.getString("SoDienThoai"),
+                    rs.getString("DiaChi")
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

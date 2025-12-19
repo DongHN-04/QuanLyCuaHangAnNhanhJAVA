@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class TrangChuView extends JPanel {
-    // Các Label để hiển thị số liệu (Controller sẽ set text cho các label này)
+    // Các Label để hiển thị số liệu
     private JLabel lblTongDoanhThu;
     private JLabel lblSoHoaDon;
     private JLabel lblSoKhachHang;
@@ -151,10 +151,10 @@ public class TrangChuView extends JPanel {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btn.setBackground(new Color(0, 150, 136));
-            }
+                }
         });
 
-        return btn;
+            return btn;
     }
 
     // --- GETTERS ---

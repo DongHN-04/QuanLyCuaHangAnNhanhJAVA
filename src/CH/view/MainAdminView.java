@@ -1,5 +1,7 @@
 package CH.view;
 
+import CH.controller.KhachHangController;
+import CH.controller.NhanVienController;
 import CH.controller.TrangChuController;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -75,6 +77,8 @@ public class MainAdminView extends JFrame {
         doanhThuView = new DoanhThuView();
 
         new TrangChuController(trangChuView);
+        new KhachHangController(khachHangView);
+        new NhanVienController(nhanVienView);
 
         pnlContent.add(trangChuView, "Trang chủ");
         pnlContent.add(datMonView, "Đặt Món");

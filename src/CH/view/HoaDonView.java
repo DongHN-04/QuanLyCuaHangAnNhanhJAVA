@@ -29,7 +29,7 @@ public class HoaDonView extends JPanel {
     }
 
     private void initUI() {
-// --- 1. TOP CONTAINER (Chứa Tiêu đề + Form + Nút) ---
+//      1. TOP CONTAINER (
         JPanel pnlContainer = new JPanel();
         pnlContainer.setLayout(new BoxLayout(pnlContainer, BoxLayout.Y_AXIS));
         pnlContainer.setBackground(TEAL_COLOR);
@@ -149,7 +149,7 @@ public class HoaDonView extends JPanel {
         return btn;
     }
 
-    // --- Public Methods for Controller ---
+
     
     // 1. Lấy dữ liệu từ Form (Nếu sau này bạn làm chức năng Thêm hóa đơn)
     public HoaDon getHoaDonInfo() {

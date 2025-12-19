@@ -15,7 +15,7 @@ public class DatMonView extends JPanel {
     private JLabel lblTongTien;
 
     public DatMonView() {
-        setLayout(new GridLayout(1, 2, 10, 10)); // Chia đôi màn hình
+        setLayout(new GridLayout(1, 2, 10, 10)); 
         setBorder(new EmptyBorder(10, 10, 10, 10));
 
         // --- TRÁI: DANH SÁCH THỰC ĐƠN ---
@@ -44,7 +44,6 @@ public class DatMonView extends JPanel {
         modelGioHang = new DefaultTableModel(colGio, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                // Chỉ cho phép sửa cột 1 (Cột Số Lượng)
                 return column == 1; 
             }
             // Định nghĩa kiểu dữ liệu cho cột để nhập số không bị lỗi
@@ -85,9 +84,11 @@ public class DatMonView extends JPanel {
     }
 
     // Methods
-    public void addMonToMenu(MonAn m) { modelMenu.addRow(m.toObjectArray()); }
+    public void addMonToMenu(MonAn m) { 
+        modelMenu.addRow(m.toObjectArray()); 
+    }
     
-    // Thêm món vào giỏ (Logic hiển thị)
+    // Thêm món vào giỏ 
     public void addMonToGio(String ten, double gia) {
         // Kiểm tra xem món đã có trong giỏ chưa
         for (int i = 0; i < modelGioHang.getRowCount(); i++) {
@@ -112,6 +113,10 @@ public class DatMonView extends JPanel {
     }
 
     public void addThemListener(ActionListener al) { btnThemMon.addActionListener(al); }
-    public void addXoaListener(ActionListener al) { btnXoaMon.addActionListener(al); }
-    public void addThanhToanListener(ActionListener al) { btnThanhToan.addActionListener(al); }
+    public void addXoaListener(ActionListener al) { 
+        btnXoaMon.addActionListener(al); 
+    }
+    public void addThanhToanListener(ActionListener al) { 
+        btnThanhToan.addActionListener(al); 
+    }
 }

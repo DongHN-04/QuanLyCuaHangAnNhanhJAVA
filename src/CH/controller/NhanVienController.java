@@ -7,10 +7,9 @@ import CH.view.NhanVienView;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat; // Import xử lý ngày
-import java.util.Date;             // Import Date
+
 import java.util.List;
-import java.util.regex.Pattern;    // Import Regex
+import java.util.regex.Pattern;   
 
 public class NhanVienController {
     
@@ -39,7 +38,7 @@ public class NhanVienController {
                 int row = view.getSelectedRow();
                 if (row >= 0) {
                     try {
-                        String maNV = view.getTable().getValueAt(row, 0).toString(); // Lấy Mã NV
+                        String maNV = view.getTable().getValueAt(row, 0).toString(); 
 
                         // Lấy thông tin đầy đủ từ DB
                         NhanVien nv = nhanVienDAO.getByID(maNV);
@@ -52,9 +51,16 @@ public class NhanVienController {
                 }
             }
         });
-    } // --- KẾT THÚC CONSTRUCTOR TẠI ĐÂY ---
+        view.addTimKiemListener(e -> searchNhanVien());
 
-    // --- CÁC PHƯƠNG THỨC KHÁC PHẢI NẰM NGOÀI CONSTRUCTOR ---
+        view.getTxtTimKiem().addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent e) {
+                searchNhanVien();
+            }
+        });
+
+    } 
 
     private void loadDataToView() {
         view.clearTable();
@@ -86,24 +92,6 @@ public class NhanVienController {
             return false;
         }
 
-//        // 3. Validate Tuổi (Phải đủ 18 tuổi)
-//        try {
-//            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-//            Date birthDate = sdf.parse(nv.getNgaySinh());
-//            Date now = new Date();
-//
-//            // Tính tuổi sơ bộ (lấy năm hiện tại - năm sinh)
-//            long ageInMillis = now.getTime() - birthDate.getTime();
-//            long years = ageInMillis / (1000L * 60 * 60 * 24 * 365);
-//
-//            if (years < 18) {
-//                JOptionPane.showMessageDialog(view, "Nhân viên phải đủ 18 tuổi!");
-//                return false;
-//            }
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(view, "Định dạng ngày sinh không hợp lệ!");
-//            return false;
-//        }
 
         return true; 
     }
@@ -128,8 +116,6 @@ public class NhanVienController {
                 JOptionPane.showMessageDialog(view, "Thêm thành công!");
                 loadDataToView();
                 view.clearForm();
-                // Vì hàm clearForm reset mã, ta cần set lại text hiển thị
-                // Tuy nhiên ở View chúng ta đã set "Tự động sinh" khi clearForm rồi nên có thể bỏ qua
             } else {
                 JOptionPane.showMessageDialog(view, "Thêm thất bại!");
             }
@@ -182,4 +168,15 @@ public class NhanVienController {
             }
         }
     }
+    private void searchNhanVien() {
+        String keyword = view.getTxtTimKiem().getText().trim();
+
+        List<NhanVien> list = nhanVienDAO.search(keyword);
+
+        view.clearTable();
+        for (NhanVien nv : list) {
+            view.addRowToTable(nv);
+        }
+    }
+
 }

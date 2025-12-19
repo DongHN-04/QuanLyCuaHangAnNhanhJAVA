@@ -81,7 +81,7 @@ public class KhachHangView extends JPanel {
         pnlSearch.setBackground(TEAL_COLOR);
         txtTimKiem = new JTextField(15);
         btnTimKiemBtn = createStyledButton("Tìm kiếm");
-        JLabel lblSearch = new JLabel("Tên KH: "); lblSearch.setForeground(Color.WHITE);
+        JLabel lblSearch = new JLabel("Tên KH/ Mã KH: "); lblSearch.setForeground(Color.WHITE);
         pnlSearch.add(lblSearch); pnlSearch.add(txtTimKiem); pnlSearch.add(btnTimKiemBtn);
         pnlFormContainer.add(pnlSearch);
 
@@ -109,7 +109,6 @@ public class KhachHangView extends JPanel {
 
     public KhachHang getKhachHangInfo() {
         String gt = rdoNam.isSelected() ? "Nam" : "Nữ";
-        // Truyền null cho email vì đã bỏ
         return new KhachHang(txtMaKH.getText(), txtTenKH.getText(), txtTheLoai.getText(), gt, txtSDT.getText(), txtDiaChi.getText());
     }
 
@@ -125,6 +124,13 @@ public class KhachHangView extends JPanel {
     public void clearForm() {
         txtMaKH.setText("Tự động sinh"); txtTenKH.setText(""); txtTheLoai.setText("");
         txtSDT.setText(""); txtDiaChi.setText(""); btnGroupGender.clearSelection();
+    }
+    public JTextField getTxtSearch() {
+        return txtTimKiem; 
+        
+    }
+    public void addTimKiemListener(ActionListener al) { 
+        btnTimKiemBtn.addActionListener(al); 
     }
     
     public JTable getTable() { return tableKhachHang; }

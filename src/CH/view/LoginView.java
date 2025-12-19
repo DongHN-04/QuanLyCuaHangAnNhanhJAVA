@@ -133,7 +133,6 @@ public class LoginView extends JFrame {
 
         add(mainPanel);
 
-        // Enter để đăng nhập
         getRootPane().setDefaultButton(btnLogin);
     }
 

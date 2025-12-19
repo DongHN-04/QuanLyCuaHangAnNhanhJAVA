@@ -244,6 +244,13 @@ public class NhanVienView extends JPanel {
     public void addSuaListener(ActionListener al) { btnSua.addActionListener(al); }
     public void addXoaListener(ActionListener al) { btnXoa.addActionListener(al); }
     public void addResetListener(ActionListener al) { btnReset.addActionListener(al); }
+    public JTextField getTxtTimKiem() {
+        return txtTimKiem;
+    }
+
+    public void addTimKiemListener(ActionListener al) {
+        btnTimKiem.addActionListener(al);
+    }
 
     public Object getValueAt(int row, int i) {
         throw new UnsupportedOperationException("Not supported yet."); 

@@ -11,7 +11,7 @@ public class XacNhanThanhToanDialog extends JDialog {
     private JButton btnXacNhanIn;
     
     public XacNhanThanhToanDialog(JFrame parent, DefaultTableModel modelGioHang, double tongTien) {
-        super(parent, "Xác nhận Thanh Toán", true); // Modal = true để chặn click ra ngoài
+        super(parent, "Xác nhận Thanh Toán", true); 
         setSize(400, 500);
         setLocationRelativeTo(parent);
         setLayout(new BorderLayout());
@@ -24,12 +24,11 @@ public class XacNhanThanhToanDialog extends JDialog {
         pnlHead.add(txtTenKhach);
         add(pnlHead, BorderLayout.NORTH);
 
-        // Center: Xem lại món
         JTable tblReview = new JTable();
         DefaultTableModel modelReview = new DefaultTableModel();
-        // Copy cột
+ 
         for(int i=0; i<modelGioHang.getColumnCount(); i++) modelReview.addColumn(modelGioHang.getColumnName(i));
-        // Copy dòng
+
         for(int i=0; i<modelGioHang.getRowCount(); i++) {
             Object[] row = new Object[modelGioHang.getColumnCount()];
             for(int j=0; j<modelGioHang.getColumnCount(); j++) row[j] = modelGioHang.getValueAt(i, j);
