@@ -12,150 +12,215 @@ import java.util.Map;
 public class MainAdminView extends JFrame {
 
     private final Color SIDEBAR_COLOR = new Color(0, 91, 110);
+    private final Color HOVER_COLOR = new Color(0, 110, 130);
     private final Color ACCENT_RED = new Color(255, 77, 77);
 
     private CardLayout cardLayout;
     private JPanel pnlContent;
     private Map<String, JButton> menuButtons = new HashMap<>();
 
-    // Các View Con
+    // View con
+    private TrangChuView trangChuView;
     private NhanVienView nhanVienView;
     private KhachHangView khachHangView;
-    private HoaDonView hoaDonView;
     private DatMonView datMonView;
-    private ThucDonView qlThucDonView;
-    private KhoView qlKhoView;
+    private ThucDonView thucDonView;
+    private HoaDonView hoaDonView;
+    private KhoView khoView;
     private DoanhThuView doanhThuView;
-    private TrangChuView trangChuView;
 
     public MainAdminView() {
         setTitle("Hệ Thống Quản Lý Cửa Hàng Đồ Ăn Nhanh");
         setSize(1200, 700);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // 1. Header
+        initHeader();
+        initContent();
+        initSidebar();
+
+        cardLayout.show(pnlContent, "Trang chủ");
+        updateActiveButton("Trang chủ");
+    }
+
+    // ================= HEADER =================
+    private void initHeader() {
         JPanel pnlHeader = new JPanel(new BorderLayout());
         pnlHeader.setBackground(Color.WHITE);
         pnlHeader.setBorder(new EmptyBorder(10, 20, 10, 20));
-        pnlHeader.add(new JLabel("Hệ Thống Quản Lý Cửa Hàng Đồ Ăn Nhanh") {{
-            setFont(new Font("Segoe UI", Font.BOLD, 18));
-        }}, BorderLayout.WEST);
-        
-        JPanel pnlUser = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        pnlUser.setBackground(Color.WHITE);
-        pnlUser.add(new JLabel("Xin chào, Admin"));
-        pnlHeader.add(pnlUser, BorderLayout.EAST);
-        add(pnlHeader, BorderLayout.NORTH);
 
-        // 2. Card Layout
+        JLabel lblTitle = new JLabel("Hệ Thống Quản Lý Cửa Hàng Đồ Ăn Nhanh");
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        pnlHeader.add(lblTitle, BorderLayout.WEST);
+
+        JLabel lblUser = new JLabel("Xin chào, Admin");
+        pnlHeader.add(lblUser, BorderLayout.EAST);
+
+        add(pnlHeader, BorderLayout.NORTH);
+    }
+
+    // ================= CONTENT =================
+    private void initContent() {
         cardLayout = new CardLayout();
         pnlContent = new JPanel(cardLayout);
-        
-        // --- KHỞI TẠO CÁC VIEW CON ---
-        nhanVienView = new NhanVienView(); 
-        khachHangView = new KhachHangView();
-        hoaDonView = new HoaDonView();
-        datMonView = new DatMonView();
-        qlThucDonView = new ThucDonView(); 
-        qlKhoView = new KhoView();
-        doanhThuView = new DoanhThuView();
+
         trangChuView = new TrangChuView();
-        TrangChuController trangChuController = new TrangChuController(trangChuView);
+        nhanVienView = new NhanVienView();
+        khachHangView = new KhachHangView();
+        datMonView = new DatMonView();
+        thucDonView = new ThucDonView();
+        hoaDonView = new HoaDonView();
+        khoView = new KhoView();
+        doanhThuView = new DoanhThuView();
 
+        new TrangChuController(trangChuView);
 
-        
-        // --- ADD VÀO CARDLAYOUT ---
         pnlContent.add(trangChuView, "Trang chủ");
-        pnlContent.add(nhanVienView, "Nhân viên"); 
+        pnlContent.add(datMonView, "Đặt Món");
+        pnlContent.add(thucDonView, "Thực đơn");
+        pnlContent.add(nhanVienView, "Nhân viên");
         pnlContent.add(khachHangView, "Khách hàng");
-        pnlContent.add(qlThucDonView, "Thực đơn"); 
-        pnlContent.add(datMonView, "Đặt Món");      
         pnlContent.add(hoaDonView, "Hóa đơn");
-        pnlContent.add(qlKhoView, "Kho");
+        pnlContent.add(khoView, "Kho");
         pnlContent.add(doanhThuView, "Doanh thu");
 
         add(pnlContent, BorderLayout.CENTER);
+    }
 
-        // 3. Sidebar
+    // ================= SIDEBAR =================
+    private void initSidebar() {
         JPanel pnlSidebar = new JPanel();
         pnlSidebar.setPreferredSize(new Dimension(220, 0));
         pnlSidebar.setBackground(SIDEBAR_COLOR);
         pnlSidebar.setLayout(new BoxLayout(pnlSidebar, BoxLayout.Y_AXIS));
 
-        JLabel lblAdmin = new JLabel("ADMIN");
-        lblAdmin.setForeground(Color.WHITE);
-        lblAdmin.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        lblAdmin.setAlignmentX(Component.CENTER_ALIGNMENT);
-        pnlSidebar.add(Box.createRigidArea(new Dimension(0, 30))); pnlSidebar.add(lblAdmin); pnlSidebar.add(Box.createRigidArea(new Dimension(0, 40)));
+        JLabel lblRole = new JLabel("ADMIN");
+        lblRole.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        lblRole.setForeground(Color.WHITE);
+        lblRole.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // [QUAN TRỌNG] Tên ở đây phải khớp 100% với tên add ở trên
-        String[] menuItems = {"Trang chủ", "Đặt Món", "Thực đơn", "Nhân viên", "Khách hàng", "Hóa đơn", "Kho", "Doanh thu", "Thoát"};
+        pnlSidebar.add(Box.createRigidArea(new Dimension(0, 30)));
+        pnlSidebar.add(lblRole);
+        pnlSidebar.add(Box.createRigidArea(new Dimension(0, 40)));
+
+        String[] menuItems = {
+            "Trang chủ",
+            "Đặt Món",
+            "Thực đơn",
+            "Nhân viên",
+            "Khách hàng",
+            "Hóa đơn",
+            "Kho",
+            "Doanh thu",
+            "Thoát"
+        };
 
         for (String item : menuItems) {
-            JButton btnMenu = createMenuButton(item);
-            btnMenu.addActionListener(e -> {
-                if (item.equals("Thoát")) System.exit(0);
-                else {
-                    cardLayout.show(pnlContent, item);
-                    updateActiveButton(item);
-                }
-            });
-            menuButtons.put(item, btnMenu);
-            pnlSidebar.add(btnMenu); pnlSidebar.add(Box.createRigidArea(new Dimension(0, 5)));
+            JButton btn = createMenuButton(item);
+            menuButtons.put(item, btn);
+            pnlSidebar.add(btn);
+            pnlSidebar.add(Box.createRigidArea(new Dimension(0, 4)));
         }
+
         add(pnlSidebar, BorderLayout.WEST);
-        
-        cardLayout.show(pnlContent, "Trang chủ"); 
-        updateActiveButton("Trang chủ");
     }
 
-    // Getters
-    public NhanVienView getNhanVienView() { return nhanVienView; }
-    public KhachHangView getKhachHangView(){ return khachHangView; }
-    public HoaDonView getHoaDonView(){ return hoaDonView; }
-    public DatMonView getDatMonView(){ return datMonView; }
-    public ThucDonView getThucDonView(){ return qlThucDonView; }
-    public KhoView getKhoView() { return qlKhoView; }
-    public DoanhThuView getDoanhThuView() { return doanhThuView; }
-    public TrangChuView getTrangChuView(){return trangChuView;}
-    
-    
-    // Helpers
-    private JPanel createTrangChuPanel() {
-        JPanel pnl = new JPanel(new GridBagLayout()); pnl.setBackground(Color.WHITE);
-        JLabel lbl = new JLabel("Trang Chủ"); lbl.setFont(new Font("Segoe UI", Font.BOLD, 30));
-        pnl.add(lbl); return pnl;
-    }
-    private JPanel createPlaceholderPanel(String title) {
-        JPanel pnl = new JPanel(new GridBagLayout()); pnl.setBackground(Color.WHITE);
-        JLabel lbl = new JLabel(title); lbl.setFont(new Font("Segoe UI", Font.BOLD, 24)); lbl.setForeground(Color.GRAY);
-        pnl.add(lbl); return pnl;
-    }
+    // ================= MENU BUTTON =================
     private JButton createMenuButton(String text) {
         JButton btn = new JButton(text);
-        btn.setMaximumSize(new Dimension(200, 40)); btn.setBackground(SIDEBAR_COLOR);
-        btn.setForeground(Color.WHITE); btn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        btn.setBorderPainted(false); btn.setFocusPainted(false); btn.setContentAreaFilled(true); 
-        btn.setOpaque(true); btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btn.setHorizontalAlignment(SwingConstants.LEFT); btn.setBorder(new EmptyBorder(0, 40, 0, 0));
-        btn.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) { btn.setBackground(new Color(0, 77, 77)); }
-            public void mouseExited(MouseEvent e) { btn.setBackground(SIDEBAR_COLOR); }
+        btn.setMaximumSize(new Dimension(220, 45));
+        btn.setBackground(SIDEBAR_COLOR);
+        btn.setForeground(Color.WHITE);
+        btn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        btn.setBorderPainted(false);
+        btn.setFocusPainted(false);
+        btn.setOpaque(true);
+        btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btn.setHorizontalAlignment(SwingConstants.LEFT);
+        btn.setIconTextGap(15);
+        btn.setBorder(new EmptyBorder(0, 25, 0, 0));
+
+        String iconPath = switch (text) {
+            case "Trang chủ"  -> "/CH/icons/house.png";
+            case "Đặt Món"    -> "/CH/icons/fast-food.png";
+            case "Thực đơn"   -> "/CH/icons/menu.png";
+            case "Nhân viên"  -> "/CH/icons/employee.png";
+            case "Khách hàng" -> "/CH/icons/rating.png";
+            case "Hóa đơn"    -> "/CH/icons/invoice.png";
+            case "Kho"        -> "/CH/icons/warehouse.png";
+            case "Doanh thu"  -> "/CH/icons/salary.png";
+            case "Thoát"      -> "/CH/icons/exit.png";
+            default -> null;
+        };
+
+        if (iconPath != null) {
+            ImageIcon icon = createResizedIcon(iconPath);
+            if (icon != null) btn.setIcon(icon);
+        }
+
+        btn.addActionListener(e -> {
+            if ("Thoát".equals(text)) {
+                int confirm = JOptionPane.showConfirmDialog(
+                        this,
+                        "Bạn có muốn thoát không?",
+                        "Xác nhận",
+                        JOptionPane.YES_NO_OPTION
+                );
+                if (confirm == JOptionPane.YES_OPTION) System.exit(0);
+            } else {
+                cardLayout.show(pnlContent, text);
+                updateActiveButton(text);
+            }
         });
+
+        btn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btn.setBackground(HOVER_COLOR);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btn.setBackground(SIDEBAR_COLOR);
+            }
+        });
+
         return btn;
     }
-    private void updateActiveButton(String activeName) {
+
+    private void updateActiveButton(String active) {
         for (Map.Entry<String, JButton> entry : menuButtons.entrySet()) {
             JButton btn = entry.getValue();
-            if (entry.getKey().equals(activeName)) {
-                btn.setForeground(ACCENT_RED); btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            if (entry.getKey().equals(active)) {
+                btn.setForeground(ACCENT_RED);
+                btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
             } else {
-                btn.setForeground(Color.WHITE); btn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+                btn.setForeground(Color.WHITE);
+                btn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
             }
-            btn.setBackground(SIDEBAR_COLOR);
         }
     }
 
+    private ImageIcon createResizedIcon(String path) {
+        java.net.URL url = getClass().getResource(path);
+        if (url == null) {
+            System.out.println("Không tìm thấy icon: " + path);
+            return null;
+        }
+        Image img = new ImageIcon(url)
+                .getImage()
+                .getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+        return new ImageIcon(img);
+    }
+
+    // ================= GETTERS =================
+    public TrangChuView getTrangChuView() { return trangChuView; }
+    public NhanVienView getNhanVienView() { return nhanVienView; }
+    public KhachHangView getKhachHangView() { return khachHangView; }
+    public DatMonView getDatMonView() { return datMonView; }
+    public ThucDonView getThucDonView() { return thucDonView; }
+    public HoaDonView getHoaDonView() { return hoaDonView; }
+    public KhoView getKhoView() { return khoView; }
+    public DoanhThuView getDoanhThuView() { return doanhThuView; }
 }

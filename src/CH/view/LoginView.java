@@ -29,7 +29,7 @@ public class LoginView extends JFrame {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // ===== TIÊU ĐỀ =====
-        JLabel lblTitle = new JLabel("ĐĂNG NHẬP HỆ THỐNG", JLabel.CENTER);
+        JLabel lblTitle = new JLabel("HỆ THỐNG QUẢN LÝ CỬA HÀNG", JLabel.CENTER);
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
         lblTitle.setForeground(new Color(0, 123, 255));
         lblTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
