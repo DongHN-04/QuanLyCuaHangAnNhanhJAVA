@@ -41,7 +41,7 @@ public class KhachHang {
     public String getDiaChi() { return diaChi; }
     public void setDiaChi(String diaChi) { this.diaChi = diaChi; }
 
-    // Chuyển đổi sang Object[] để đổ vào JTable (Cột 2 là Thể loại)
+   
     public Object[] toObjectArray() {
         return new Object[]{maKH, tenKH, theLoai, gioiTinh, soDienThoai, diaChi};
     }

@@ -1,5 +1,6 @@
 package CH.view;
 
+import CH.controller.TrangChuController;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -45,11 +46,6 @@ public class MainAdminView extends JFrame {
         JPanel pnlUser = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         pnlUser.setBackground(Color.WHITE);
         pnlUser.add(new JLabel("Xin chào, Admin"));
-        /*JButton btnLogout = new JButton("Đăng Xuất");
-        btnLogout.setBackground(ACCENT_RED); 
-        btnLogout.setForeground(Color.BLACK); 
-        btnLogout.setFocusPainted(false);
-        pnlUser.add(btnLogout);*/
         pnlHeader.add(pnlUser, BorderLayout.EAST);
         add(pnlHeader, BorderLayout.NORTH);
 
@@ -66,6 +62,9 @@ public class MainAdminView extends JFrame {
         qlKhoView = new KhoView();
         doanhThuView = new DoanhThuView();
         trangChuView = new TrangChuView();
+        TrangChuController trangChuController = new TrangChuController(trangChuView);
+
+
         
         // --- ADD VÀO CARDLAYOUT ---
         pnlContent.add(trangChuView, "Trang chủ");
@@ -120,7 +119,8 @@ public class MainAdminView extends JFrame {
     public ThucDonView getThucDonView(){ return qlThucDonView; }
     public KhoView getKhoView() { return qlKhoView; }
     public DoanhThuView getDoanhThuView() { return doanhThuView; }
-    // [Sửa getter]
+    public TrangChuView getTrangChuView(){return trangChuView;}
+    
     
     // Helpers
     private JPanel createTrangChuPanel() {

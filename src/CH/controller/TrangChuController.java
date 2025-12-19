@@ -18,6 +18,7 @@ public class TrangChuController {
         this.hoaDonDAO = new HoaDonDAO();
         this.khachHangDAO = new KhachHangDAO();
         this.thucDonDAO = new ThucDonDAO();
+        hoaDonDAO.addSampleDataIfEmpty();
 
         // 1. Tải dữ liệu ngay khi mở
         loadStatistics();

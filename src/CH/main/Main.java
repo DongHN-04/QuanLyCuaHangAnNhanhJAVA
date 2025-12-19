@@ -4,6 +4,7 @@ import CH.controller.*;
 import CH.dao.DBConnection;
 import CH.view.LoginView;
 import CH.view.MainAdminView;
+import CH.view.TrangChuView;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 

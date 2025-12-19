@@ -8,6 +8,7 @@ package CH.view;
  *
  * @author NGUYEN HOANG DONG
  */
+import CH.controller.TrangChuController;
 import CH.model.KhachHang;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -32,6 +33,7 @@ public class MainNhanVienView extends JFrame {
     private HoaDonView hoaDonView;
     private DatMonView datMonView;
     private ThucDonView thucDonView;
+    
 
     public MainNhanVienView() {
         setTitle("Hệ Thống Quản Lý Cửa Hàng Đồ Ăn Nhanh");
@@ -64,6 +66,8 @@ public class MainNhanVienView extends JFrame {
         khachHangView = new KhachHangView();
         thucDonView = new ThucDonView(); 
         trangChuView = new TrangChuView();
+        TrangChuController trangChuController = new TrangChuController(trangChuView);
+
         
         // --- ADD VÀO CARDLAYOUT ---
         pnlContent.add(trangChuView, "Trang chủ"); 
