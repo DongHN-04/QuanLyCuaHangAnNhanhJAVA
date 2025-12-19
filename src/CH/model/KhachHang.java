@@ -27,7 +27,6 @@ public class KhachHang {
     public String getTenKH() { return tenKH; }
     public void setTenKH(String tenKH) { this.tenKH = tenKH; }
 
-    // [MỚI] Getter/Setter cho TheLoai
     public String getTheLoai() { return theLoai; }
     public void setTheLoai(String theLoai) { this.theLoai = theLoai; }
 

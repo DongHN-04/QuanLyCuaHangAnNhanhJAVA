@@ -13,7 +13,6 @@ public class MonAn {
     public double getDonGia() { return donGia; }
     public String getDonViTinh() { return donViTinh; }
 
-    // --- SETTERS (Thêm vào để đầy đủ chuẩn Java Bean) ---
     public void setMaMon(String maMon) {
         this.maMon = maMon;
     }

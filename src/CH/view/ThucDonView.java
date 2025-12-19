@@ -29,7 +29,7 @@ public class ThucDonView extends JPanel {
         
         addInput(pnlForm, gbc, 0, 1, "Tên món", txtTenMon = new JTextField(15));
         addInput(pnlForm, gbc, 0, 2, "Đơn giá", txtDonGia = new JTextField(15));
-        addInput(pnlForm, gbc, 0, 3, "Đơn vị tính", txtDVT = new JTextField(15)); // Ly, Đĩa...
+        addInput(pnlForm, gbc, 0, 3, "Đơn vị tính", txtDVT = new JTextField(15)); 
 
         // Buttons
         JPanel pnlBtn = new JPanel();
@@ -65,7 +65,7 @@ public class ThucDonView extends JPanel {
 
     public void fillForm(MonAn m) {
         txtMaMon.setText(m.getMaMon()); txtTenMon.setText(m.getTenMon());
-        txtDonGia.setText(String.format("%.0f", m.getDonGia())); txtDVT.setText(m.getDonViTinh()); // Sửa getDonViTinh -> lấy từ model
+        txtDonGia.setText(String.format("%.0f", m.getDonGia())); txtDVT.setText(m.getDonViTinh()); 
     }
     
     public void clearForm() {

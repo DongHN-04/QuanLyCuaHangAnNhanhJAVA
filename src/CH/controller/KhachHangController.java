@@ -69,7 +69,7 @@ public class KhachHangController {
         }
     }
 
-    // [QUAN TRỌNG] Validate cho cấu trúc mới
+    // Validate cho cấu trúc mới
     private boolean validateForm(KhachHang kh) {
         if (kh.getTenKH().trim().isEmpty()) {
             JOptionPane.showMessageDialog(view, "Tên khách hàng không được để trống!");

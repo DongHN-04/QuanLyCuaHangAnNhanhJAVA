@@ -128,7 +128,7 @@
 
         private void luuHoaDonVaoDB(String tenKhach) {
             try {
-                // --- BƯỚC MỚI: TỰ ĐỘNG LIÊN KẾT KHÁCH HÀNG ---
+                // TỰ ĐỘNG LIÊN KẾT KHÁCH HÀNG ---
                 KhachHangDAO khDao = new KhachHangDAO();
                 boolean khachDaTonTai = false;
 
@@ -149,7 +149,7 @@
                     newKH.setDiaChi("");
                     khDao.add(newKH);
 
-                    // QUAN TRỌNG: Gọi hàm load lại dữ liệu bên Controller Khách hàng ngay sau khi add thành công
+                    //  Gọi hàm load lại dữ liệu bên Controller Khách hàng ngay sau khi add thành công
                     if (khachHangController != null) {
                         khachHangController.loadDataToView();
                     }
@@ -177,7 +177,7 @@
                 }
                 conn.close();
 
-                JOptionPane.showMessageDialog(view, "Thanh toán thành công! Khách hàng " + tenKhach + " đã được liên kết.");
+                JOptionPane.showMessageDialog(view, "Thanh toán thành công! Khách hàng ");
                 view.getModelGioHang().setRowCount(0);
                 updateTongTien();
 
@@ -205,7 +205,7 @@
                     JOptionPane.showMessageDialog(view, "Số lượng phải lớn hơn 0!");
                 }
 
-                // 2. Lấy đơn giá (Xử lý chuỗi 15,000 -> 15000)
+                // 2. Lấy đơn giá 
                 String giaStr = model.getValueAt(row, 2).toString().replace(",", "").replace(".", "");
                 double donGia = Double.parseDouble(giaStr);
 
@@ -213,8 +213,6 @@
                 double thanhTienMoi = soLuongMoi * donGia;
 
                 // 4. Cập nhật cột Thành tiền (index 3)
-                // Lưu ý: Việc setValuAt này sẽ kích hoạt lại Listener -> Có thể gây lặp vô tận
-                // Nhưng vì ở trên ta có check `if (e.getColumn() == 1)` nên update cột 3 sẽ không sao.
                 model.setValueAt(String.format("%,.0f", thanhTienMoi), row, 3);
 
                 updateTongTien();

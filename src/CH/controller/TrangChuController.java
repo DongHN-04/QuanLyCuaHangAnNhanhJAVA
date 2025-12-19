@@ -23,7 +23,7 @@ public class TrangChuController {
         // 1. Tải dữ liệu ngay khi mở
         loadStatistics();
 
-        // 2. Gán sự kiện cho nút làm mới (Chỉ gán 1 lần duy nhất)
+        // 2. Gán sự kiện cho nút làm mới 
         this.view.getBtnLamMoi().addActionListener(e -> loadStatistics());
     }
 

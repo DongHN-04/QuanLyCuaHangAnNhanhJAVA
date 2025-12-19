@@ -23,7 +23,7 @@ public class DoanhThuController {
         this.view = view;
         this.dao = new DoanhThuDAO();
 
-        loadNgay(); // mặc định
+        loadNgay(); 
 
         view.getBtnNgay().addActionListener(e -> loadNgay());
         view.getBtnThang().addActionListener(e -> loadThang());
@@ -37,7 +37,7 @@ public class DoanhThuController {
     private void loadData(List<DoanhThu> list){
         DefaultTableModel model = (DefaultTableModel) view.getTable().getModel();
         model.setRowCount(0);
-        java.text.DecimalFormat df = new java.text.DecimalFormat("#,###"); //dùng để định dạng số
+        java.text.DecimalFormat df = new java.text.DecimalFormat("#,###"); 
         double total = 0;
         for(DoanhThu d : list){
             model.addRow(new Object[]{d.getThoiGian(), df.format(d.getTongTien())});

@@ -20,7 +20,7 @@ public class KhachHangDAO {
                 KhachHang kh = new KhachHang();
                 kh.setMaKH(rs.getString("MaKH"));
                 kh.setTenKH(rs.getString("TenKH"));
-                kh.setTheLoai(rs.getString("TheLoai")); // [MỚI]
+                kh.setTheLoai(rs.getString("TheLoai"));
                 kh.setGioiTinh(rs.getString("GioiTinh"));
                 kh.setSoDienThoai(rs.getString("SoDienThoai"));
                 kh.setDiaChi(rs.getString("DiaChi"));
@@ -37,12 +37,12 @@ public class KhachHangDAO {
     public boolean add(KhachHang kh) {
         try {
             Connection cons = DBConnection.getConnection();
-            // [MỚI] Sửa SQL Insert
+            
             String sql = "INSERT INTO KhachHang(MaKH, TenKH, TheLoai, GioiTinh, SoDienThoai, DiaChi) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = cons.prepareStatement(sql);
             ps.setString(1, kh.getMaKH());
             ps.setString(2, kh.getTenKH());
-            ps.setString(3, kh.getTheLoai()); // [MỚI]
+            ps.setString(3, kh.getTheLoai());
             ps.setString(4, kh.getGioiTinh());
             ps.setString(5, kh.getSoDienThoai());
             ps.setString(6, kh.getDiaChi());
@@ -59,11 +59,10 @@ public class KhachHangDAO {
     public boolean update(KhachHang kh) {
         try {
             Connection cons = DBConnection.getConnection();
-            // [MỚI] Sửa SQL Update
             String sql = "UPDATE KhachHang SET TenKH=?, TheLoai=?, GioiTinh=?, SoDienThoai=?, DiaChi=? WHERE MaKH=?";
             PreparedStatement ps = cons.prepareStatement(sql);
             ps.setString(1, kh.getTenKH());
-            ps.setString(2, kh.getTheLoai()); // [MỚI]
+            ps.setString(2, kh.getTheLoai()); 
             ps.setString(3, kh.getGioiTinh());
             ps.setString(4, kh.getSoDienThoai());
             ps.setString(5, kh.getDiaChi());
@@ -78,7 +77,7 @@ public class KhachHangDAO {
         }
     }
 
-    // Các hàm delete và getNewID giữ nguyên như cũ
+
     public boolean delete(String maKH) {
         try {
             Connection cons = DBConnection.getConnection();
