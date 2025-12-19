@@ -22,7 +22,6 @@ public class KhachHangDAO {
                 kh.setTenKH(rs.getString("TenKH"));
                 kh.setTheLoai(rs.getString("TheLoai")); // [MỚI]
                 kh.setGioiTinh(rs.getString("GioiTinh"));
-                kh.setEmail(rs.getString("Email"));
                 kh.setSoDienThoai(rs.getString("SoDienThoai"));
                 kh.setDiaChi(rs.getString("DiaChi"));
                 list.add(kh);
@@ -39,15 +38,14 @@ public class KhachHangDAO {
         try {
             Connection cons = DBConnection.getConnection();
             // [MỚI] Sửa SQL Insert
-            String sql = "INSERT INTO KhachHang(MaKH, TenKH, TheLoai, GioiTinh, Email, SoDienThoai, DiaChi) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO KhachHang(MaKH, TenKH, TheLoai, GioiTinh, SoDienThoai, DiaChi) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = cons.prepareStatement(sql);
             ps.setString(1, kh.getMaKH());
             ps.setString(2, kh.getTenKH());
             ps.setString(3, kh.getTheLoai()); // [MỚI]
             ps.setString(4, kh.getGioiTinh());
-            ps.setString(5, kh.getEmail());
-            ps.setString(6, kh.getSoDienThoai());
-            ps.setString(7, kh.getDiaChi());
+            ps.setString(5, kh.getSoDienThoai());
+            ps.setString(6, kh.getDiaChi());
             int row = ps.executeUpdate();
             ps.close();
             cons.close();
@@ -62,15 +60,14 @@ public class KhachHangDAO {
         try {
             Connection cons = DBConnection.getConnection();
             // [MỚI] Sửa SQL Update
-            String sql = "UPDATE KhachHang SET TenKH=?, TheLoai=?, GioiTinh=?, Email=?, SoDienThoai=?, DiaChi=? WHERE MaKH=?";
+            String sql = "UPDATE KhachHang SET TenKH=?, TheLoai=?, GioiTinh=?, SoDienThoai=?, DiaChi=? WHERE MaKH=?";
             PreparedStatement ps = cons.prepareStatement(sql);
             ps.setString(1, kh.getTenKH());
             ps.setString(2, kh.getTheLoai()); // [MỚI]
             ps.setString(3, kh.getGioiTinh());
-            ps.setString(4, kh.getEmail());
-            ps.setString(5, kh.getSoDienThoai());
-            ps.setString(6, kh.getDiaChi());
-            ps.setString(7, kh.getMaKH());
+            ps.setString(4, kh.getSoDienThoai());
+            ps.setString(5, kh.getDiaChi());
+            ps.setString(6, kh.getMaKH());
             int row = ps.executeUpdate();
             ps.close();
             cons.close();
@@ -122,18 +119,11 @@ public class KhachHangDAO {
     }
     public int countAll() {
         int count = 0;
-
-        String sql = "SELECT COUNT(*) FROM KhachHang";
         try (Connection cons = DBConnection.getConnection();
-             PreparedStatement ps = cons.prepareStatement(sql);
+             PreparedStatement ps = cons.prepareStatement("SELECT COUNT(*) FROM KhachHang");
              ResultSet rs = ps.executeQuery()) {
-
-            if (rs.next()) {
-                count = rs.getInt(1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            if (rs.next()) count = rs.getInt(1);
+        } catch (Exception e) { e.printStackTrace(); }
         return count;
-    }   
+    } 
 }

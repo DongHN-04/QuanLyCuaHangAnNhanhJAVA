@@ -1,16 +1,14 @@
 package CH.controller;
 
-
-
 import CH.dao.*;
-import CH.model.*;
 import CH.view.TrangChuView;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class TrangChuController {
     private TrangChuView view;
+    
+    // Các DAO
     private HoaDonDAO hoaDonDAO;
     private KhachHangDAO khachHangDAO;
     private ThucDonDAO thucDonDAO;

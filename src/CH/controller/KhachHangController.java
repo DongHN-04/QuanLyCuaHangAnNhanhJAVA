@@ -36,13 +36,12 @@ public class KhachHangController {
                 if (row >= 0) {
                     try {
                         KhachHang kh = new KhachHang(
-                            view.getTable().getValueAt(row, 0).toString(),
-                            view.getTable().getValueAt(row, 1).toString(),
+                            view.getTable().getValueAt(row, 0).toString(), // MaKH
+                            view.getTable().getValueAt(row, 1).toString(), // TenKH
                             view.getTable().getValueAt(row, 2).toString(), // TheLoai
-                            view.getTable().getValueAt(row, 3).toString(),
-                            view.getTable().getValueAt(row, 4).toString(),
-                            view.getTable().getValueAt(row, 5).toString(),
-                            view.getTable().getValueAt(row, 6).toString()
+                            view.getTable().getValueAt(row, 3).toString(), // GioiTinh
+                            view.getTable().getValueAt(row, 4).toString(), // SoDienThoai
+                            view.getTable().getValueAt(row, 5).toString()  // DiaChi
                         );
                         view.fillForm(kh);
                     } catch (Exception ex) {
@@ -53,11 +52,11 @@ public class KhachHangController {
         });
     }
 
-    private void loadDataToView() {
-        view.clearTable();
+    public void loadDataToView() {
+        view.clearTable(); 
         List<KhachHang> list = khachHangDAO.getAll(); 
         for (KhachHang kh : list) {
-            view.addRowToTable(kh);
+            view.addRowToTable(kh); 
         }
     }
 

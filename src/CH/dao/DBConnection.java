@@ -1,4 +1,4 @@
-package CH.dao;
+    package CH.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -74,6 +74,14 @@ public class DBConnection {
             
             dbStmt.executeUpdate(sqlCreateTable);
             System.out.println("Da Kiem tra/ Tao bang NhanVien.");
+            String sqlCreateAdmin =
+                    "INSERT INTO NhanVien (MaNV, TenNV, NgaySinh, GioiTinh, ChucVu, SoDienThoai, DiaChi, TaiKhoan, MatKhau, VaiTro) " +
+                    "SELECT 'ADMIN01', 'Quản trị hệ thống', '1990-01-01', 'Nam', 'Admin', " +
+                    "'0123456789', 'Hệ thống', 'admin', 'admin123', 'ADMIN' " +
+                    "WHERE NOT EXISTS (SELECT 1 FROM NhanVien WHERE TaiKhoan = 'admin');";
+
+            dbStmt.executeUpdate(sqlCreateAdmin);
+            System.out.println("Da kiem tra / Tao tai khoan ADMIN mac dinh.");
             
             // 4. Tạo bảng KhachHang nếu chưa tồn tại [MỚI THÊM]
             String sqlCreateKhachHang = "CREATE TABLE IF NOT EXISTS KhachHang ("
@@ -81,7 +89,6 @@ public class DBConnection {
                     + "TenKH VARCHAR(100) NOT NULL,"
                     + "TheLoai VARCHAR(20),"
                     + "GioiTinh VARCHAR(10),"
-                    + "Email VARCHAR(100),"
                     + "SoDienThoai VARCHAR(15),"
                     + "DiaChi VARCHAR(255)"
                     + ") CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;";

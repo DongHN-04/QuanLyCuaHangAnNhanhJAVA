@@ -52,8 +52,11 @@ public class LoginController {
             // 1. Khởi tạo HoaDonController
             HoaDonController hoaDonCtrl = new HoaDonController(mainAdminView.getHoaDonView());
             
-            // 2. Khởi tạo DatMonController VÀ LƯU VÀO BIẾN
-            DatMonController datMonCtrl = new DatMonController(mainAdminView.getDatMonView(), hoaDonCtrl);
+            // 2. Khởi tạo KhachHangController và lưu vào biến
+            KhachHangController khachHangCtrl = new KhachHangController(mainAdminView.getKhachHangView());
+            
+            // 3. Khởi tạo DatMonController VÀ LƯU VÀO BIẾN
+            DatMonController datMonCtrl = new DatMonController(mainAdminView.getDatMonView(), hoaDonCtrl, khachHangCtrl);
             
             // 3. Tạo KhoController VÀ LƯU VÀO BIẾN
             KhoController khoCtrl = new KhoController(mainAdminView.getKhoView()); 
@@ -74,9 +77,14 @@ public class LoginController {
             
             // 1. Khởi tạo HoaDonController
             HoaDonController hoaDonCtrl = new HoaDonController(mainNhanVienView.getHoaDonView());
+            // 2. Khởi tạo KhachHangController và lưu vào biến
+            KhachHangController khachHangCtrl = new KhachHangController(mainNhanVienView.getKhachHangView());
+            
+            
+            
             
             // 2. Khởi tạo DatMonController VÀ LƯU VÀO BIẾN
-            DatMonController datMonCtrl = new DatMonController(mainNhanVienView.getDatMonView(), hoaDonCtrl);
+            DatMonController datMonCtrl = new DatMonController(mainNhanVienView.getDatMonView(), hoaDonCtrl, khachHangCtrl);
             
             // 3. Truyền datMonCtrl vào ThucDonController
             new ThucDonController(mainNhanVienView.getThucDonView(), datMonCtrl, null);

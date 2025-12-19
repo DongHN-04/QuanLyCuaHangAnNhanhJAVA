@@ -1,36 +1,17 @@
 package CH.model;
 
 public class MonAn {
-    private String maMon;
-    private String tenMon;
+    private String maMon, tenMon, donViTinh;
     private double donGia;
-    private String donViTinh;
-
-    public MonAn() {
-    }
 
     public MonAn(String maMon, String tenMon, double donGia, String donViTinh) {
-        this.maMon = maMon;
-        this.tenMon = tenMon;
-        this.donGia = donGia;
-        this.donViTinh = donViTinh;
+        this.maMon = maMon; this.tenMon = tenMon; this.donGia = donGia; this.donViTinh = donViTinh;
     }
-
-    public String getMaMon() {
-        return maMon;
-    }
-
-    public String getTenMon() {
-        return tenMon;
-    }
-
-    public double getDonGia() {
-        return donGia;
-    }
-
-    public String getDonViTinh() { // [ĐÃ BỔ SUNG]
-        return donViTinh;
-    }
+    // Getters 
+    public String getMaMon() { return maMon; }
+    public String getTenMon() { return tenMon; }
+    public double getDonGia() { return donGia; }
+    public String getDonViTinh() { return donViTinh; }
 
     // --- SETTERS (Thêm vào để đầy đủ chuẩn Java Bean) ---
     public void setMaMon(String maMon) {
