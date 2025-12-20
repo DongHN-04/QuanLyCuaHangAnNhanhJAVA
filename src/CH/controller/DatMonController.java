@@ -36,10 +36,7 @@
 
             loadMenu();
 
-            // 1. Sự kiện nút "Thêm vào giỏ >>"
-            view.addThemListener(e -> themVaoGio());
-
-            // 2. Sự kiện Click đúp chuột vào bảng Menu -> Tự động thêm vào giỏ
+            // 1. Sự kiện Click đúp chuột vào bảng Menu -> Tự động thêm vào giỏ
             view.getTableMenu().addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -177,7 +174,7 @@
                     }
                 }
 
-                if (!khachDaTonTai && !tenKhach.equalsIgnoreCase("Khách vãng lai") && !tenKhach.trim().isEmpty()) {
+                if (!tenKhach.equalsIgnoreCase("Khách vãng lai") && !tenKhach.trim().isEmpty()) {
                     KhachHang newKH = new KhachHang();
                     newKH.setMaKH(khDao.getNewID());
                     newKH.setTenKH(tenKhach);
@@ -244,7 +241,7 @@
                     }
                 }
 
-                JOptionPane.showMessageDialog(view, "Thanh toán thành công! Khách hàng ");
+                JOptionPane.showMessageDialog(view, "Thanh toán thành công!! ");
                 view.getModelGioHang().setRowCount(0);
                 updateTongTien();
                 loadMenu();

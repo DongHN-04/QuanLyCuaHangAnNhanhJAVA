@@ -11,7 +11,7 @@ import CH.model.MonAn;
 public class DatMonView extends JPanel {
     private JTable tableMenu, tableGioHang;
     private DefaultTableModel modelMenu, modelGioHang;
-    private JButton btnThemMon, btnXoaMon, btnThanhToan;
+    private JButton btnXoaMon, btnThanhToan;
     private JLabel lblTongTien;
 
     public DatMonView() {
@@ -30,10 +30,6 @@ public class DatMonView extends JPanel {
         tableMenu.setRowHeight(30);
         pnlLeft.add(new JScrollPane(tableMenu), BorderLayout.CENTER);
         
-        btnThemMon = new JButton("Thêm vào giỏ >>");
-        btnThemMon.setBackground(new Color(0, 77, 77));
-        btnThemMon.setForeground(Color.WHITE);
-        pnlLeft.add(btnThemMon, BorderLayout.SOUTH);
 
         // --- PHẢI: GIỎ HÀNG ---
         JPanel pnlRight = new JPanel(new BorderLayout());
@@ -112,7 +108,7 @@ public class DatMonView extends JPanel {
         lblTongTien.setText("Tổng tiền: " + String.format("%,.0f VNĐ", tien));
     }
 
-    public void addThemListener(ActionListener al) { btnThemMon.addActionListener(al); }
+   
     public void addXoaListener(ActionListener al) { 
         btnXoaMon.addActionListener(al); 
     }
