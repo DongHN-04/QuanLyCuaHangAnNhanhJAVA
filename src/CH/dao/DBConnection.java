@@ -34,7 +34,7 @@ public class DBConnection {
     }
 
     /**
-     * [MỚI] Hàm kiểm tra và tự động tạo Database + Bảng nếu chưa có
+     * Hàm kiểm tra và tự động tạo Database + Bảng nếu chưa có
      * Chạy hàm này đầu tiên khi khởi động Main
      */
     public static void initializeDatabase() {
@@ -108,7 +108,7 @@ public class DBConnection {
             dbStmt.executeUpdate(sqlCreateHoaDon);
 //            System.out.println("Da Kiem tra/ Tao bang HoaDon.");
 
-            // 7. Tạo bảng ChiTietHoaDon [MỚI]
+            // 7. Tạo bảng ChiTietHoaDon 
             String sqlCreateChiTiet = "CREATE TABLE IF NOT EXISTS ChiTietHoaDon ("
                     + "ID INT AUTO_INCREMENT PRIMARY KEY," // Khóa chính tự tăng
                     + "MaHD VARCHAR(20) NOT NULL,"

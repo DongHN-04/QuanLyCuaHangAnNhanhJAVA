@@ -125,6 +125,8 @@ public class KhachHangDAO {
         } catch (Exception e) { e.printStackTrace(); }
         return count;
     } 
+    
+    
     public List<KhachHang> search(String keyword) {
         List<KhachHang> list = new ArrayList<>();
         // Tìm kiếm theo Tên, Số điện thoại hoặc Mã khách hàng

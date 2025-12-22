@@ -57,7 +57,7 @@ public class HoaDonDAO {
         return list;
     }
 
-    // 3. [MỚI] Thêm hóa đơn
+    // 3. Thêm hóa đơn
     public boolean add(HoaDon hd) {
         try {
             Connection cons = DBConnection.getConnection();
@@ -79,7 +79,7 @@ public class HoaDonDAO {
         }
     }
 
-    // 4. [MỚI] Sửa hóa đơn
+    // 4.  Sửa hóa đơn
     public boolean update(HoaDon hd) {
         try {
             Connection cons = DBConnection.getConnection();
@@ -100,7 +100,7 @@ public class HoaDonDAO {
         }
     }
 
-    // 5. [MỚI] Xóa hóa đơn
+    // 5. Xóa hóa đơn
     public boolean delete(String maHD) {
         try {
             Connection cons = DBConnection.getConnection();
