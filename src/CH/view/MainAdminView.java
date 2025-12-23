@@ -99,9 +99,9 @@ public class MainAdminView extends JFrame {
         JLabel lblRole = new JLabel("ADMIN");
         lblRole.setFont(new Font("Segoe UI", Font.BOLD, 20));
         lblRole.setForeground(Color.WHITE);
-        lblRole.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblRole.setAlignmentX(Component.CENTER_ALIGNMENT);  //Căn giữa theo chiều ngang
 
-        pnlSidebar.add(Box.createRigidArea(new Dimension(0, 30)));
+        pnlSidebar.add(Box.createRigidArea(new Dimension(0, 30)));  //Tạo khoảng trống 30px
         pnlSidebar.add(lblRole);
         pnlSidebar.add(Box.createRigidArea(new Dimension(0, 40)));
 
@@ -140,7 +140,7 @@ public class MainAdminView extends JFrame {
         btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btn.setHorizontalAlignment(SwingConstants.LEFT);
         btn.setIconTextGap(15);
-        btn.setBorder(new EmptyBorder(0, 25, 0, 0));
+        btn.setBorder(new EmptyBorder(0, 10, 0, 0));
 
         String iconPath = switch (text) {
             case "Trang chủ"  -> "/CH/icons/house.png";
