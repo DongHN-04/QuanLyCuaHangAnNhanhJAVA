@@ -1,5 +1,6 @@
 package CH.view;
 
+import CH.component.RoundedButton;
 import CH.controller.KhachHangController;
 import CH.controller.NhanVienController;
 import CH.controller.TrangChuController;
@@ -51,41 +52,30 @@ public class MainAdminView extends JFrame {
     private void initHeader() {
         JPanel pnlHeader = new JPanel(new BorderLayout());
         pnlHeader.setBackground(Color.WHITE);
-        
-        // [QUAN TRỌNG 1] Đặt padding Left = 0 (tham số thứ 2)
-        // (Top, Left, Bottom, Right) -> (10, 0, 10, 20)
-        pnlHeader.setBorder(new EmptyBorder(10, 0, 10, 20));
+        pnlHeader.setBorder(new EmptyBorder(10, 10, 10, 20));
 
-        // [QUAN TRỌNG 2] Đặt hgap = 0 (tham số thứ 2) để FlowLayout không tự đẩy vào
-        JPanel pnlLeft = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        pnlLeft.setBackground(Color.WHITE);
-
-        // --- Nút Đăng Xuất ---
-        JButton btnLogout = new JButton("Đăng xuất");
+        // ===== NÚT ĐĂNG XUẤT (GÓC TRÁI) =====
+        JButton btnLogout = new RoundedButton("Đăng xuất", 30);
         btnLogout.setFont(new Font("Segoe UI", Font.BOLD, 12));
         btnLogout.setForeground(Color.WHITE);
         btnLogout.setBackground(ACCENT_RED);
         btnLogout.setFocusPainted(false);
         btnLogout.setBorderPainted(false);
         btnLogout.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
-        // Thêm padding bên trong nút để chữ không bị sát mép nút quá
-        btnLogout.setBorder(new EmptyBorder(8, 15, 8, 15)); 
-
+        btnLogout.setBorder(new EmptyBorder(8, 15, 8, 15));
         btnLogout.addActionListener(e -> logout());
 
-        // --- Tiêu đề ---
+        JPanel pnlLogout = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        pnlLogout.setBackground(Color.WHITE);
+        pnlLogout.add(btnLogout);
+
+        // ===== TIÊU ĐỀ (GIỮA HEADER) =====
         JLabel lblTitle = new JLabel("Hệ Thống Quản Lý Cửa Hàng Đồ Ăn Nhanh");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        
-        // [QUAN TRỌNG 3] Tạo khoảng cách giữa Nút và Tiêu đề bằng border của Tiêu đề
-        // Thay vì dùng gap của Layout, ta đẩy chữ Title sang phải 20px
-        lblTitle.setBorder(new EmptyBorder(0, 20, 0, 0));
+        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 
-        pnlLeft.add(btnLogout);
-        pnlLeft.add(lblTitle);
-
-        pnlHeader.add(pnlLeft, BorderLayout.WEST);
+        pnlHeader.add(pnlLogout, BorderLayout.EAST);
+        pnlHeader.add(lblTitle, BorderLayout.WEST);
 
         add(pnlHeader, BorderLayout.NORTH);
     }

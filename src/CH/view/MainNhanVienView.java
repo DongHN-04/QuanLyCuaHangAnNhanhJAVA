@@ -47,38 +47,30 @@ public class MainNhanVienView extends JFrame {
     private void initHeader() {
         JPanel pnlHeader = new JPanel(new BorderLayout());
         pnlHeader.setBackground(Color.WHITE);
-        
-        pnlHeader.setBorder(new EmptyBorder(10, 5, 10, 20));
+        pnlHeader.setBorder(new EmptyBorder(10, 10, 10, 20));
 
-        // Panel chứa Nút và Tiêu đề (Canh trái tuyệt đối)
-        JPanel pnlLeft = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
-        pnlLeft.setBackground(Color.WHITE);
-
-        // 1. Nút Đăng Xuất (Sẽ nằm ngoài cùng bên trái)
+        // ===== NÚT ĐĂNG XUẤT (GÓC TRÁI) =====
         JButton btnLogout = new JButton("Đăng xuất");
         btnLogout.setFont(new Font("Segoe UI", Font.BOLD, 12));
         btnLogout.setForeground(Color.WHITE);
         btnLogout.setBackground(ACCENT_RED);
         btnLogout.setFocusPainted(false);
         btnLogout.setBorderPainted(false);
-        // Thêm chút padding trong nút cho đẹp
-        btnLogout.setBorder(new EmptyBorder(5, 10, 5, 10)); 
         btnLogout.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        
-        // Sự kiện đăng xuất
+        btnLogout.setBorder(new EmptyBorder(8, 15, 8, 15));
         btnLogout.addActionListener(e -> logout());
 
-        // 2. Tiêu đề (Nằm ngay sau nút)
+        JPanel pnlLogout = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        pnlLogout.setBackground(Color.WHITE);
+        pnlLogout.add(btnLogout);
+
+        // ===== TIÊU ĐỀ (GIỮA HEADER) =====
         JLabel lblTitle = new JLabel("Hệ Thống Quản Lý Cửa Hàng Đồ Ăn Nhanh");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        // Chỉnh margin trái cho tiêu đề để tách biệt với nút một chút
-        lblTitle.setBorder(new EmptyBorder(0, 10, 0, 0));
+        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // Thêm theo thứ tự: Nút trước -> Tiêu đề sau
-        pnlLeft.add(btnLogout);
-        pnlLeft.add(lblTitle);
-
-        pnlHeader.add(pnlLeft, BorderLayout.WEST);
+        pnlHeader.add(pnlLogout, BorderLayout.EAST);
+        pnlHeader.add(lblTitle, BorderLayout.WEST);
 
         add(pnlHeader, BorderLayout.NORTH);
     }
