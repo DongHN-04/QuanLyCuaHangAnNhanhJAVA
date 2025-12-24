@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
+import CH.controller.LoginController;
 
 public class MainAdminView extends JFrame {
 
@@ -50,13 +51,60 @@ public class MainAdminView extends JFrame {
     private void initHeader() {
         JPanel pnlHeader = new JPanel(new BorderLayout());
         pnlHeader.setBackground(Color.WHITE);
-        pnlHeader.setBorder(new EmptyBorder(10, 20, 10, 20));
+        
+        // [QUAN TRỌNG 1] Đặt padding Left = 0 (tham số thứ 2)
+        // (Top, Left, Bottom, Right) -> (10, 0, 10, 20)
+        pnlHeader.setBorder(new EmptyBorder(10, 0, 10, 20));
 
+        // [QUAN TRỌNG 2] Đặt hgap = 0 (tham số thứ 2) để FlowLayout không tự đẩy vào
+        JPanel pnlLeft = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        pnlLeft.setBackground(Color.WHITE);
+
+        // --- Nút Đăng Xuất ---
+        JButton btnLogout = new JButton("Đăng xuất");
+        btnLogout.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        btnLogout.setForeground(Color.WHITE);
+        btnLogout.setBackground(ACCENT_RED);
+        btnLogout.setFocusPainted(false);
+        btnLogout.setBorderPainted(false);
+        btnLogout.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        
+        // Thêm padding bên trong nút để chữ không bị sát mép nút quá
+        btnLogout.setBorder(new EmptyBorder(8, 15, 8, 15)); 
+
+        btnLogout.addActionListener(e -> logout());
+
+        // --- Tiêu đề ---
         JLabel lblTitle = new JLabel("Hệ Thống Quản Lý Cửa Hàng Đồ Ăn Nhanh");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        pnlHeader.add(lblTitle, BorderLayout.WEST);
+        
+        // [QUAN TRỌNG 3] Tạo khoảng cách giữa Nút và Tiêu đề bằng border của Tiêu đề
+        // Thay vì dùng gap của Layout, ta đẩy chữ Title sang phải 20px
+        lblTitle.setBorder(new EmptyBorder(0, 20, 0, 0));
+
+        pnlLeft.add(btnLogout);
+        pnlLeft.add(lblTitle);
+
+        pnlHeader.add(pnlLeft, BorderLayout.WEST);
 
         add(pnlHeader, BorderLayout.NORTH);
+    }
+    private void logout() {
+        int confirm = JOptionPane.showConfirmDialog(
+                this,
+                "Bạn có chắc chắn muốn đăng xuất?",
+                "Xác nhận đăng xuất",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            this.dispose(); // Đóng cửa sổ hiện tại (MainAdminView)
+            
+            // Mở lại màn hình đăng nhập
+            LoginView loginView = new LoginView();
+            new LoginController(loginView);
+            loginView.setVisible(true);
+        }
     }
 
     // ================= CONTENT =================
